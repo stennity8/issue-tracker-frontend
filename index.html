@@ -25,37 +25,62 @@
   <div class="container issue-container">
     <h3 class="text-center">All Issues</h3>
     <div class="container card-container">
-      <div class="card border-info mb-3">
-        <div class="card-header d-flex p-2 bg-primary text-white align-items-center">
+      <div class="card border-success mb-3">
+        <div class="card-header d-flex p-2 bg-success align-items-center">
           <h5 class="m-0"><span class="badge badge-light">#1</span></h5>
-          <h4 class="ml-2 mb-0">Issue Title</h4>
-          <button type="button" class="btn btn-outline-success p-1 ml-auto">Close Issue</button>
+          <h4 class="ml-2 mb-0"><strong>Issue Title</strong></h4>
+          <button type="button" class="btn btn-primary p-1 ml-auto">View Issue</button>
         </div>
         <div class="card-header">
           <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing
             elit.
             Iste provident
             cum animi eum necessitatibus pariatur commodi modi. </h5>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Comments:</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.</p>
+          <h5 class="m-0">Comments: <span class="badge badge-pill badge-primary">#</span></h5>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-  <script src="./dist/app.bundle.js"></script>
+    <!--Detailed Card View-->
+    <div class="container card-container">
+      <div class="card border-success mb-3">
+        <div class="card-header d-flex p-2 bg-success align-items-center">
+          <h5 class="m-0"><span class="badge badge-light">#1</span></h5>
+          <h4 class="ml-2 mb-0"><strong>Issue Title</strong></h4>
+          <button type="button" class="btn btn-primary p-1 ml-auto">Close Issue</button>
+        </div>
+        <div class="card-header">
+          <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing
+            elit.
+            Iste provident
+            cum animi eum necessitatibus pariatur commodi modi. </h5>
+          <i class="far fa-edit m-2"></i><i class="fas fa-user-edit m-2"></i><i class="fas fa-trash-alt m-2"></i>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Comments:</h5>
+          <ul class="list-group">
+            <li class="list-group-item">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam repudiandae
+              exercitationem hic voluptatum architecto quos aspernatur, minus quasi neque earum? <br> <span>- Commentor
+                Name</span></li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+            <li class="list-group-item">Porta ac consectetur ac</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"></script>
+    <script src="./dist/app.bundle.js"></script>
 </body>
 
 </html>
