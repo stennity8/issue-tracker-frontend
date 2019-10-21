@@ -1,37 +1,8 @@
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  background-image: url("./assets/antique-blackboard-blank-269481.jpg");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  background-size: auto;
-  /* background-position: center center; */
 }
 
-.container#blackboard{
-  background-color: #000000;
-  border-radius: 50px;
-  width: 80vw;
-  height: auto;
-}
-
-h1#headline-title{
-  font-size: 3rem;
-  color: #ffffff;
-  font-family: 'Fredericka the Great', sans-serif;
-}
-
-h3.headline-description{
-  font-size: 1.5rem;
-  color: #ffffff;
-}
-
-button.access {
-  background-color: #000000;
-  border: #ffffff 2px solid;
-  border-radius: 10px;
-  color: #ffffff;
-  font-family: 'Fredericka the Great', sans-serif;
-  font-size: 1.1rem;
+p.navbar-brand{
+  font-size: 2rem;
 }
