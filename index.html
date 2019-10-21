@@ -9,9 +9,9 @@
   <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great|Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://bootswatch.com/4/spacelab/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
 </head>
 
 <body>
@@ -21,6 +21,30 @@
       <p class="navbar-brand m-0">Issue Tracker</p>
     </div>
   </nav>
+
+  <div class="container issue-container">
+    <h3 class="text-center">All Issues</h3>
+    <div class="container card-container">
+      <div class="card border-info mb-3">
+        <div class="card-header d-flex p-2 bg-primary text-white align-items-center">
+          <h5 class="m-0"><span class="badge badge-light">#1</span></h5>
+          <h4 class="ml-2 mb-0">Issue Title</h4>
+          <button type="button" class="btn btn-outline-success p-1 ml-auto">Close Issue</button>
+        </div>
+        <div class="card-header">
+          <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing
+            elit.
+            Iste provident
+            cum animi eum necessitatibus pariatur commodi modi. </h5>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Comments:</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+            content.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
