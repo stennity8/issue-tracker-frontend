@@ -24,99 +24,118 @@
 
   <div class="container issue-container">
     <h3 class="text-center">Open Issues</h3>
-    <div class="container card-container">
-      <div class="card border-success mb-3">
-        <div class="card-header d-flex p-1 bg-success align-items-center">
-          <div class="status issue-number bg-light p-1 rounded">
-            <h5 class="m-0"><span class="badge" id="issue-number">#1</span></h5>
-            <h5 class="m-0"><span class="badge badge-danger">Open</span></h5>
-          </div>
-          <h4 class="ml-2 mb-0"><strong>Issue Title</strong></h4>
-          <button type="button" class="btn btn-primary p-1 ml-auto btn-sm">View Issue</button>
+    <div class="new-issue text-center mb-2">
+      <button type="button" class="btn btn-primary p-1 mr-1 ml-auto">
+        <i class="fas fa-plus"></i> Create New Issue
+      </button>
+    </div>
+    <div class="container new-issue-container"></div>
+    <div class="form-group add-issue d-flex flex-column">
+      <label class="col-form-label font-weight-bold" for="inputDefault">Issue Title</label>
+      <input type="text" class="form-control" placeholder="Add issue title..." id="inputDefault">
+      <label class="col-form-label font-weight-bold" for="inputDefault">Description</label>
+      <input type="text" class="form-control" placeholder="Add issue description..." id="inputDefault">
+      <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block">
+        <i class="fas fa-plus"></i> Create Issue
+      </button>
+    </div>
+  </div>
+  <div class="container card-container">
+    <div class="card border-success mb-3">
+      <div class="card-header d-flex p-1 bg-success align-items-center">
+        <div class="status issue-number bg-light p-1 rounded">
+          <h5 class="m-0"><span class="badge" id="issue-number">#1</span></h5>
+          <h5 class="m-0"><span class="badge badge-danger">Open</span></h5>
         </div>
-        <div class="card-header">
-          <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Iste provident cum animi eum necessitatibus pariatur commodi modi. </h5>
-          <h5 class="m-0">Comments: <span class="badge badge-pill badge-info">#</span></h5>
+        <h4 class="ml-2 mb-0"><strong>Issue Title</strong></h4>
+        <button type="button" class="btn btn-primary p-1 ml-auto btn-sm">View Issue</button>
+      </div>
+      <div class="card-header">
+        <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Iste provident cum animi eum necessitatibus pariatur commodi modi. </h5>
+        <h5 class="m-0">Comments: <span class="badge badge-pill badge-info">#</span></h5>
+      </div>
+    </div>
+  </div>
+
+  <!--Detailed Card View-->
+  <div class="container card-container">
+    <div class="card border-success mb-3">
+      <div class="card-header d-flex p-2 bg-success align-items-center">
+        <div class="status issue-number bg-light p-1 rounded">
+          <h5 class="m-0"><span class="badge" id="issue-number">#1</span></h5>
+          <h5 class="m-0"><span class="badge badge-danger">Open</span></h5>
+        </div>
+        <h4 class="ml-2 mb-0"><strong>Issue Title</strong></h4>
+
+      </div>
+      <div class="card-header">
+        <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Iste provident cum animi eum necessitatibus pariatur commodi modi. </h5>
+        <div class="d-flex">
+          <button type="button" class="btn btn-primary p-1 mr-1 btn-sm"><i class="fas fa-thumbs-up m-1"></i>Issue
+            Resolved</button>
+          <button type="button" class="btn btn-warning p-1 mr-1 btn-sm"><i
+              class="fas fa-user-edit m-1"></i>Edit</button>
+          <button type="button" class="btn btn-danger p-1 mr-1 btn-sm"><i
+              class="fas fa-trash-alt m-1"></i>Delete</span></button>
+          <i class="fas fa-times text-danger align-self-center ml-auto clickable"></i>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="d-flex">
+          <h5 class="card-title mb-1">Comments:</h5>
+          <button type="button" class="btn btn-primary p-1 mr-1 ml-auto btn-sm">
+            <i class="fas fa-plus"></i> Add Comment
+          </button>
+        </div>
+
+        <div class="form-group add-comment d-flex flex-column">
+          <label class="col-form-label font-weight-bold" for="inputDefault">Commentor Name</label>
+          <input type="text" class="form-control" placeholder="Add commentor name..." id="inputDefault">
+          <label class="col-form-label font-weight-bold" for="inputDefault">Comment</label>
+          <input type="text" class="form-control" placeholder="Add comment..." id="inputDefault">
+          <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block">
+            <i class="fas fa-plus"></i> Add Comment
+          </button>
+        </div>
+
+        <div class="comment-container d-flex flex-column p-0">
+          <div class="comment p-1 mb-1 border border-secondary" id="comment-id">
+            <div class="commentor-name comment-date d-flex flex-row">
+              <h6>Commentor Name</h6>
+              <h6 class="ml-auto">10/22/2019</h6>
+            </div>
+            <div class="comment">
+              <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam repudiandae
+                exercitationem hic voluptatum architecto quos aspernatur, minus quasi neque earum? </h6>
+            </div>
+          </div>
+          <div class="comment p-1 border border-secondary" id="comment-id">
+            <div class="commentor-name comment-date d-flex flex-row">
+              <h6>Commentor Name</h6>
+              <h6 class="ml-auto">10/22/2019</h6>
+            </div>
+            <div class="comment">
+              <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam repudiandae
+                exercitationem hic voluptatum architecto quos aspernatur, minus quasi neque earum? </h6>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!--Detailed Card View-->
-    <div class="container card-container">
-      <div class="card border-success mb-3">
-        <div class="card-header d-flex p-2 bg-success align-items-center">
-          <div class="status issue-number bg-light p-1 rounded">
-            <h5 class="m-0"><span class="badge" id="issue-number">#1</span></h5>
-            <h5 class="m-0"><span class="badge badge-danger">Open</span></h5>
-          </div>
-          <h4 class="ml-2 mb-0"><strong>Issue Title</strong></h4>
-
-        </div>
-        <div class="card-header">
-          <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Iste provident cum animi eum necessitatibus pariatur commodi modi. </h5>
-          <div class="d-flex">
-            <button type="button" class="btn btn-primary p-1 mr-1 btn-sm"><i class="fas fa-thumbs-up m-1"></i>Issue
-              Resolved</button>
-            <button type="button" class="btn btn-warning p-1 mr-1 btn-sm"><i
-                class="fas fa-user-edit m-1"></i>Edit</button>
-            <button type="button" class="btn btn-danger p-1 mr-1 btn-sm"><i
-                class="fas fa-trash-alt m-1"></i>Delete</span></button>
-            <i class="fas fa-times text-danger align-self-center ml-auto clickable"></i>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="d-flex">
-            <h5 class="card-title mb-1">Comments:</h5>
-            <button type="button" class="btn btn-primary p-1 mr-1 ml-auto btn-sm"><i class="fas fa-plus"></i> Add
-              Comment</button>
-          </div>
-          <div class="form-group add-comment d-flex flex-column">
-            <label class="col-form-label" for="inputDefault">Commentor Name</label>
-            <input type="text" class="form-control" placeholder="Add commentor name..." id="inputDefault">
-            <label class="col-form-label" for="inputDefault">Comment</label>
-            <input type="text" class="form-control" placeholder="Add comment..." id="inputDefault">
-            <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block"><i class="fas fa-plus"></i>
-              Add
-              Comment</button>
-          </div>
-          <div class="comment-container d-flex flex-column p-0">
-            <div class="comment p-1 mb-1 border border-secondary" id="comment-id">
-              <div class="commentor-name comment-date d-flex flex-row">
-                <h6>Commentor Name</h6>
-                <h6 class="ml-auto">10/22/2019</h6>
-              </div>
-              <div class="comment">
-                <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam repudiandae
-                  exercitationem hic voluptatum architecto quos aspernatur, minus quasi neque earum? </h6>
-              </div>
-            </div>
-            <div class="comment p-1 border border-secondary" id="comment-id">
-              <div class="commentor-name comment-date d-flex flex-row">
-                <h6>Commentor Name</h6>
-                <h6 class="ml-auto">10/22/2019</h6>
-              </div>
-              <div class="comment">
-                <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam repudiandae
-                  exercitationem hic voluptatum architecto quos aspernatur, minus quasi neque earum? </h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-      crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"></script>
-    <script src="./dist/app.bundle.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="./dist/app.bundle.js"></script>
 </body>
 
 </html>
