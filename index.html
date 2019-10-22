@@ -32,14 +32,12 @@
             <h5 class="m-0"><span class="badge badge-danger">Open</span></h5>
           </div>
           <h4 class="ml-2 mb-0"><strong>Issue Title</strong></h4>
-          <button type="button" class="btn btn-primary p-1 ml-auto">View Issue</button>
+          <button type="button" class="btn btn-primary p-1 ml-auto btn-sm">View Issue</button>
         </div>
         <div class="card-header">
-          <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing
-            elit.
-            Iste provident
-            cum animi eum necessitatibus pariatur commodi modi. </h5>
-          <h5 class="m-0">Comments: <span class="badge badge-pill badge-primary">#</span></h5>
+          <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Iste provident cum animi eum necessitatibus pariatur commodi modi. </h5>
+          <h5 class="m-0">Comments: <span class="badge badge-pill badge-info">#</span></h5>
         </div>
       </div>
     </div>
@@ -53,34 +51,58 @@
             <h5 class="m-0"><span class="badge badge-danger">Open</span></h5>
           </div>
           <h4 class="ml-2 mb-0"><strong>Issue Title</strong></h4>
-          <button type="button" class="btn btn-primary p-1 ml-auto">Close Issue</button>
+
         </div>
         <div class="card-header">
-          <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing
-            elit.
-            Iste provident
-            cum animi eum necessitatibus pariatur commodi modi. </h5>
+          <h5 class="card-text issue-description">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Iste provident cum animi eum necessitatibus pariatur commodi modi. </h5>
           <div class="d-flex">
-            <span class="badge badge-warning text-primary mr-1 clickable"><i
-                class="fas fa-user-edit m-1"></i>Edit</span>
-            <span class="badge badge-danger text-primary mr-1 clickable"><i
-                class="fas fa-trash-alt m-1"></i>Delete</span>
+            <button type="button" class="btn btn-primary p-1 mr-1 btn-sm"><i class="fas fa-thumbs-up m-1"></i>Issue
+              Resolved</button>
+            <button type="button" class="btn btn-warning p-1 mr-1 btn-sm"><i
+                class="fas fa-user-edit m-1"></i>Edit</button>
+            <button type="button" class="btn btn-danger p-1 mr-1 btn-sm"><i
+                class="fas fa-trash-alt m-1"></i>Delete</span></button>
             <i class="fas fa-times text-danger align-self-center ml-auto clickable"></i>
           </div>
         </div>
         <div class="card-body">
-          <h5 class="card-title mb-1">Comments:</h5>
-          <span class="badge badge-info text-primary mb-2 clickable"><i class="fas fa-plus"></i> Add
-            Comment</span>
-          <ul class="list-group">
-            <li class="list-group-item">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam repudiandae
-              exercitationem hic voluptatum architecto quos aspernatur, minus quasi neque earum? <br> <span>- Commentor
-                Name</span></li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-          </ul>
+          <div class="d-flex">
+            <h5 class="card-title mb-1">Comments:</h5>
+            <button type="button" class="btn btn-primary p-1 mr-1 ml-auto btn-sm"><i class="fas fa-plus"></i> Add
+              Comment</button>
+          </div>
+          <div class="form-group add-comment d-flex flex-column">
+            <label class="col-form-label" for="inputDefault">Commentor Name</label>
+            <input type="text" class="form-control" placeholder="Add commentor name..." id="inputDefault">
+            <label class="col-form-label" for="inputDefault">Comment</label>
+            <input type="text" class="form-control" placeholder="Add comment..." id="inputDefault">
+            <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block"><i class="fas fa-plus"></i>
+              Add
+              Comment</button>
+          </div>
+          <div class="comment-container d-flex flex-column p-0">
+            <div class="comment p-1 mb-1 border border-secondary" id="comment-id">
+              <div class="commentor-name comment-date d-flex flex-row">
+                <h6>Commentor Name</h6>
+                <h6 class="ml-auto">10/22/2019</h6>
+              </div>
+              <div class="comment">
+                <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam repudiandae
+                  exercitationem hic voluptatum architecto quos aspernatur, minus quasi neque earum? </h6>
+              </div>
+            </div>
+            <div class="comment p-1 border border-secondary" id="comment-id">
+              <div class="commentor-name comment-date d-flex flex-row">
+                <h6>Commentor Name</h6>
+                <h6 class="ml-auto">10/22/2019</h6>
+              </div>
+              <div class="comment">
+                <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam repudiandae
+                  exercitationem hic voluptatum architecto quos aspernatur, minus quasi neque earum? </h6>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
