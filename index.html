@@ -23,11 +23,14 @@
   </nav>
 
   <div class="container issue-container">
-    <h3 class="text-center">All Issues</h3>
+    <h3 class="text-center">Open Issues</h3>
     <div class="container card-container">
       <div class="card border-success mb-3">
-        <div class="card-header d-flex p-2 bg-success align-items-center">
-          <h5 class="m-0"><span class="badge badge-light">#1</span></h5>
+        <div class="card-header d-flex p-1 bg-success align-items-center">
+          <div class="status issue-number bg-light p-1 rounded">
+            <h5 class="m-0"><span class="badge" id="issue-number">#1</span></h5>
+            <h5 class="m-0"><span class="badge badge-danger">Open</span></h5>
+          </div>
           <h4 class="ml-2 mb-0"><strong>Issue Title</strong></h4>
           <button type="button" class="btn btn-primary p-1 ml-auto">View Issue</button>
         </div>
@@ -45,7 +48,10 @@
     <div class="container card-container">
       <div class="card border-success mb-3">
         <div class="card-header d-flex p-2 bg-success align-items-center">
-          <h5 class="m-0"><span class="badge badge-light">#1</span></h5>
+          <div class="status issue-number bg-light p-1 rounded">
+            <h5 class="m-0"><span class="badge" id="issue-number">#1</span></h5>
+            <h5 class="m-0"><span class="badge badge-danger">Open</span></h5>
+          </div>
           <h4 class="ml-2 mb-0"><strong>Issue Title</strong></h4>
           <button type="button" class="btn btn-primary p-1 ml-auto">Close Issue</button>
         </div>
@@ -64,7 +70,7 @@
         </div>
         <div class="card-body">
           <h5 class="card-title mb-1">Comments:</h5>
-          <span class="badge badge-info text-primary mb-2 clickable"><i class="fas fa-trash-alt m-1"></i>Add
+          <span class="badge badge-info text-primary mb-2 clickable"><i class="fas fa-plus"></i> Add
             Comment</span>
           <ul class="list-group">
             <li class="list-group-item">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam repudiandae
