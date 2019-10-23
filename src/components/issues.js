@@ -39,6 +39,9 @@ class Issues {
       .then(() => {
         this.renderOpenIssues()
       })
+      .then(() => {
+        this.issuesArray.forEach(issue => issue.bindEventListeners())
+      })
       .catch(err => alert('Something went wrong'));
   }
 
@@ -46,7 +49,7 @@ class Issues {
   renderOpenIssues() {
     //Create HTML for all cards
     let issueCards = this.issuesArray.map(issue =>
-      `<div class="container card-container" id="${issue.id}">
+      `<div class="container card-container p-0" id="${issue.id}">
         <div class="card border-success mb-3">
           <div class="card-header d-flex p-1 bg-success align-items-center">
             <div class="status issue-number bg-light p-1 rounded">

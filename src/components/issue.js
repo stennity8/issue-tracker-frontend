@@ -16,4 +16,9 @@ export class Issue {
       this.status = 'Closed'
     }
   }
+
+  bindEventListeners() {
+    this.container = document.getElementById(`${this.id}`)
+
+  }
 }
