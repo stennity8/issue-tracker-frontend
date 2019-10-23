@@ -1,3 +1,1 @@
-import { sayHello } from './lib'
-
-// console.log(sayHello('Shawn'));
+const app = new App();
