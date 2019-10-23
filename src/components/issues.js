@@ -5,16 +5,40 @@ class Issues {
   constructor() {
     this.issuesArray = []
     this.adapter = issuesAdapter
-    // this.bindEventListeners()
+    this.createNewIssueBtn = document.querySelector('button#create-new-issue')
+    this.newIssueForm = document.querySelector('#new-issue-container')
+    this.createNewIssue = false
     this.fetchAndLoadOpenIssues()
+    this.bindEventListeners()
   }
 
   fetchAndLoadOpenIssues() {
     this.adapter.getOpenIssues().then(issues =>
       issues.forEach(issue => this.issuesArray.push(new Issue(issue)))
     )
-    console.log(this.issuesArray);
+      .then(this.renderOpenIssues());
+  }
 
+  renderOpenIssues() {
+
+  }
+
+  bindEventListeners() {
+    this.createNewIssueBtn.addEventListener('click', () => {
+      // hide & seek with the form
+      this.createNewIssue = !this.createNewIssue
+      if (this.createNewIssue) {
+        this.createNewIssueBtn.innerHTML = `
+        <i class="fas fa-minus"></i> Hide
+        `
+        this.newIssueForm.style.display = 'block'
+      } else {
+        this.createNewIssueBtn.innerHTML = `
+        <i class="fas fa-plus"></i> Create New Issue
+        `
+        this.newIssueForm.style.display = 'none'
+      }
+    })
   }
 }
 

@@ -27,14 +27,14 @@
   <div class="container issue-container">
     <h3 class="text-center">Open Issues</h3>
     <div class="new-issue text-center mb-2">
-      <button type="button" class="btn btn-primary p-1 mr-1 ml-auto">
+      <button type="button" class="btn btn-primary p-1 mr-1 ml-auto" id="create-new-issue">
         <i class="fas fa-plus"></i> Create New Issue
       </button>
     </div>
 
     <!-- New Issue Form -->
     <div class="container" id="new-issue-container">
-      <div class="form-group add-issue d-flex flex-column">
+      <form class="form-group add-issue d-flex flex-column">
         <label class="col-form-label font-weight-bold" for="inputDefault">Issue Title</label>
         <input type="text" class="form-control" placeholder="Add issue title..." id="inputDefault">
         <label class="col-form-label font-weight-bold" for="inputDefault">Description</label>
@@ -42,11 +42,11 @@
         <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block">
           <i class="fas fa-plus"></i> Create Issue
         </button>
-      </div>
+      </form>
     </div>
 
     <!-- Issue Card with comments hidden -->
-    <div class="container card-container">
+    <div class="container card-container" id="{id}">
       <div class="card border-success mb-3">
         <div class="card-header d-flex p-1 bg-success align-items-center">
           <div class="status issue-number bg-light p-1 rounded">
