@@ -12,6 +12,7 @@ class Issues {
     this.bindEventListeners()
   }
 
+  //Fetch all open issues from API
   fetchAndLoadOpenIssues() {
     this.adapter.getOpenIssues().then(issues =>
       issues.forEach(issue => this.issuesArray.push(new Issue(issue)))
@@ -19,6 +20,7 @@ class Issues {
       .then(this.renderOpenIssues());
   }
 
+  //Render all open issues to DOM
   renderOpenIssues() {
 
   }
