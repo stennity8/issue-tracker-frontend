@@ -5,40 +5,48 @@ class Issues {
   constructor() {
     this.issuesArray = []
     this.adapter = issuesAdapter
-    this.createNewIssueBtn = document.querySelector('button#create-new-issue')
-    this.newIssueForm = document.querySelector('#new-issue-container')
-    this.createNewIssue = false
+
     this.fetchAndLoadOpenIssues()
     this.bindEventListeners()
   }
 
   //Fetch all open issues from API
   fetchAndLoadOpenIssues() {
-    this.adapter.getOpenIssues().then(issues =>
-      issues.forEach(issue => this.issuesArray.push(new Issue(issue)))
-    )
-      .then(this.renderOpenIssues());
+    this.adapter
+      .getOpenIssues()
+      .then(issues => {
+        issues.forEach(issue => this.issuesArray.push(new Issue(issue)))
+      })
+      .then(() => {
+        this.renderOpenIssues()
+      })
+      .catch(err => alert('Something went wrong'));
   }
 
   //Render all open issues to DOM
   renderOpenIssues() {
-
+    const issueContainer = document.querySelector('.issue-container')
+    console.log(this.issuesArray)
   }
 
   bindEventListeners() {
-    this.createNewIssueBtn.addEventListener('click', () => {
+    const createNewIssueBtn = document.querySelector('button#create-new-issue')
+    const newIssueForm = document.querySelector('#new-issue-container')
+    let createNewIssue = false
+
+    createNewIssueBtn.addEventListener('click', () => {
       // hide & seek with the form
-      this.createNewIssue = !this.createNewIssue
-      if (this.createNewIssue) {
-        this.createNewIssueBtn.innerHTML = `
+      createNewIssue = !createNewIssue
+      if (createNewIssue) {
+        createNewIssueBtn.innerHTML = `
         <i class="fas fa-minus"></i> Hide
         `
-        this.newIssueForm.style.display = 'block'
+        newIssueForm.style.display = 'block'
       } else {
-        this.createNewIssueBtn.innerHTML = `
+        createNewIssueBtn.innerHTML = `
         <i class="fas fa-plus"></i> Create New Issue
         `
-        this.newIssueForm.style.display = 'none'
+        newIssueForm.style.display = 'none'
       }
     })
   }
