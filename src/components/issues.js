@@ -6,6 +6,7 @@ class Issues {
     this.issuesArray = []
     this.adapter = issuesAdapter
     this.addComment = false
+    this.createNewIssue = false
     this.bindingsAndEventListeners()
     this.fetchAndLoadOpenIssues()
   }
@@ -16,22 +17,22 @@ class Issues {
     const createNewIssueBtn = document.querySelector('button#create-new-issue')
     const newIssueForm = document.querySelector('#new-issue-container')
     const createIssueBtn = document.querySelector('button.create-issue')
-    let createNewIssue = false
 
     // Listen for click on new issue button
-    createNewIssueBtn.addEventListener('click', toggleNewIssue)
+    createNewIssueBtn.addEventListener('click', toggleNewIssue.bind(this))
 
     // Listen for click on create issue button
     createIssueBtn.addEventListener('click', this.createIssue.bind(this))
-
 
     //Listen for click on view issue button
     this.issueContainer.addEventListener('click', viewIssue.bind(this))
 
     //Hide or show create new issue form
     function toggleNewIssue() {
-      createNewIssue = !createNewIssue
-      if (createNewIssue) {
+      console.log(this.createNewIssue);
+
+      this.createNewIssue = !this.createNewIssue
+      if (this.createNewIssue) {
         createNewIssueBtn.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
         newIssueForm.style.display = 'block'
       } else {
@@ -205,12 +206,18 @@ class Issues {
       description
     }
 
-    this.adapter.createNewIssue(issue)
-      .then(data => console.log(data))
-      .catch(function (error) {
-        alert("Unable to process");
-        console.log(error.message);
-      });
+    //Clear and hide form
+    document.querySelector('button#create-new-issue').innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
+    document.querySelector('#new-issue-container').style.display = 'none'
+    this.createNewIssue = false
+
+    // //Make POST request using adapter
+    // this.adapter.createNewIssue(issue)
+    //   .then(data => console.log(data))
+    //   .catch(function (error) {
+    //     alert("Unable to process");
+    //     console.log(error.message);
+    //   });
   }
 
   deleteIssue() {
