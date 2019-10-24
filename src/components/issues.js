@@ -15,10 +15,15 @@ class Issues {
 
     const createNewIssueBtn = document.querySelector('button#create-new-issue')
     const newIssueForm = document.querySelector('#new-issue-container')
+    const createIssueBtn = document.querySelector('button.create-issue')
     let createNewIssue = false
 
     // Listen for click on new issue button
     createNewIssueBtn.addEventListener('click', toggleNewIssue)
+
+    // Listen for click on create issue button
+    createIssueBtn.addEventListener('click', this.createIssue.bind(this))
+
 
     //Listen for click on view issue button
     this.issueContainer.addEventListener('click', viewIssue.bind(this))
@@ -80,7 +85,10 @@ class Issues {
               <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
               <h5 class="m-0 issue-status"><span class="badge badge-danger">${issue.status}</span></h5>
             </div>
-          <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+          <div class="d-flex flex-column">
+            <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+            <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
+          </div>
           <div class="ml-auto d-flex flex-column">
             <p class="m-1 issue-date">${issue.createdDate}</p>
             <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issue.id}">View Issue</button>
@@ -108,7 +116,10 @@ class Issues {
           <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
           <h5 class="m-0 issue-status"><span class="badge badge-danger">${issue.status}</span></h5>
         </div>
-        <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+        <div class="d-flex flex-column">
+          <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+          <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
+        </div>
         <div class="ml-auto d-flex flex-column">
           <p class="m-1 issue-date">${issue.createdDate}</p>
         </div>
@@ -178,6 +189,28 @@ class Issues {
 
     //Remove buttons
     e.target.parentElement.remove()
+  }
+
+  //Create new issue in DB and render to DOM
+  createIssue(e) {
+    const form = document.querySelector('form.add-issue')
+    const formData = new FormData(form)
+    const title = formData.get('title')
+    const description = formData.get('description')
+    const creator = formData.get('creator')
+
+    const issue = {
+      creator,
+      title,
+      description
+    }
+
+    this.adapter.createNewIssue(issue)
+      .then(data => console.log(data))
+      .catch(function (error) {
+        alert("Unable to process");
+        console.log(error.message);
+      });
   }
 
   deleteIssue() {

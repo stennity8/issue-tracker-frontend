@@ -35,11 +35,14 @@
     <!-- New Issue Form -->
     <div class="new-issue-container" id="new-issue-container" style="display:none">
       <form class="form-group add-issue d-flex flex-column">
+        <label class="col-form-label font-weight-bold" for="creator">Creator</label>
+        <input type="text" class="form-control" placeholder="Add issue title..." id="creator" name="creator">
         <label class="col-form-label font-weight-bold" for="issue-title">Issue Title</label>
-        <input type="text" class="form-control" placeholder="Add issue title..." id="issue-title">
+        <input type="text" class="form-control" placeholder="Add issue title..." id="issue-title" name="title">
         <label class="col-form-label font-weight-bold" for="issue-description">Description</label>
-        <textarea class="form-control" placeholder="Add issue description..." id="issue-description"></textarea>
-        <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block">
+        <textarea class="form-control" placeholder="Add issue description..." id="issue-description"
+          name="description"></textarea>
+        <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-issue">
           <i class="fas fa-plus"></i> Create Issue
         </button>
       </form>
