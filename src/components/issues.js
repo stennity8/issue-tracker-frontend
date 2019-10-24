@@ -167,7 +167,6 @@ class Issues {
 
   //Hide buttons, comments, etc. and return view to basic issue view
   closeView(e) {
-    e.preventDefault();
     // Add view issue button back
     const issueId = e.target.parentElement.parentElement.parentElement.parentElement.dataset.id
     const issueDate = e.target.parentElement.parentElement.parentElement.querySelector('.issue-date')
@@ -200,7 +199,7 @@ class Issues {
       <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor">
       <label class="col-form-label font-weight-bold" for="add-comment">Comment</label>
       <input type="text" class="form-control" placeholder="Add comment..." id="add-comment">
-      <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block">
+      <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-comment">
         <i class="fas fa-plus"></i> Add Comment
      </button>
     </div>
@@ -211,11 +210,18 @@ class Issues {
     if (this.addComment) {
       e.target.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
       e.target.parentElement.insertAdjacentHTML('afterend', commentForm);
+      //Bind event listener to create comment
+      e.target.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', createComment)
     } else {
       e.target.innerHTML = `<i class="fas fa-plus"></i> View Issue`
       e.target.parentElement.nextElementSibling.remove();
     }
+
+    function createComment(e) {
+      console.log('...comment being created');
+    }
   }
+
 }
 
 export const issues = new Issues();
