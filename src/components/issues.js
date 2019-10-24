@@ -5,6 +5,7 @@ class Issues {
   constructor() {
     this.issuesArray = []
     this.adapter = issuesAdapter
+    this.addComment = false
     this.bindingsAndEventListeners()
     this.fetchAndLoadOpenIssues()
   }
@@ -26,7 +27,7 @@ class Issues {
     function toggleNewIssue() {
       createNewIssue = !createNewIssue
       if (createNewIssue) {
-        createNewIssueBtn.innerHTML = `<i class="fas fa-minus"></i> Hide`
+        createNewIssueBtn.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
         newIssueForm.style.display = 'block'
       } else {
         createNewIssueBtn.innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
@@ -127,7 +128,7 @@ class Issues {
       <div class="card-body">
         <div class="d-flex">
           <h5 class="card-title mb-1">Comments: </h5>
-          <button type="button" class="btn btn-primary p-1 mr-1 ml-auto btn-sm">
+          <button type="button" class="btn btn-primary p-1 mr-1 ml-auto btn-sm add-comment">
             <i class="fas fa-plus"></i> Add Comment
           </button>
         </div>
@@ -161,6 +162,7 @@ class Issues {
     issueContainer.querySelector('.delete-issue').addEventListener('click', this.deleteIssue)
     issueContainer.querySelector('.edit-issue').addEventListener('click', this.editIssue)
     issueContainer.querySelector('.resolve-issue').addEventListener('click', this.resolveIssue)
+    issueContainer.querySelector('.add-comment').addEventListener('click', this.toggleAddComment)
   }
 
   //Hide buttons, comments, etc. and return view to basic issue view
@@ -191,6 +193,29 @@ class Issues {
     console.log('...issue being resolved');
   }
 
+  toggleAddComment(e) {
+    const commentForm = `
+    <div class="form-group add-comment d-flex flex-column mt-1">
+      <label class="col-form-label font-weight-bold" for="add-commentor">Commentor Name</label>
+      <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor">
+      <label class="col-form-label font-weight-bold" for="add-comment">Comment</label>
+      <input type="text" class="form-control" placeholder="Add comment..." id="add-comment">
+      <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block">
+        <i class="fas fa-plus"></i> Add Comment
+     </button>
+    </div>
+    `
+    this.addComment = !this.addComment
+
+    //Hide or show create new comment form
+    if (this.addComment) {
+      e.target.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
+      e.target.parentElement.insertAdjacentHTML('afterend', commentForm);
+    } else {
+      e.target.innerHTML = `<i class="fas fa-plus"></i> View Issue`
+      e.target.parentElement.nextElementSibling.remove();
+    }
+  }
 }
 
 export const issues = new Issues();
