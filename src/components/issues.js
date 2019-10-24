@@ -21,7 +21,7 @@ class Issues {
     createNewIssueBtn.addEventListener('click', toggleNewIssue)
 
     //Listen for click on view issue button
-    this.issueContainer.addEventListener('click', viewIssue)
+    this.issueContainer.addEventListener('click', viewIssue.bind(this))
 
     //Hide or show create new issue form
     function toggleNewIssue() {
@@ -39,7 +39,12 @@ class Issues {
     function viewIssue(e) {
       e.preventDefault();
       if (e.target.classList.contains('view-issue')) {
+        //Get issue id and find the issue object in issuesArray
+        const issueId = parseInt(e.target.dataset.id, 10)
+        const issue = this.issuesArray.find(issue => issue.id === issueId)
 
+        //Fetch issue comments
+        issue.getComments()
       }
     }
   }
@@ -71,7 +76,7 @@ class Issues {
           <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
           <div class="ml-auto d-flex flex-column">
             <p class="m-1 issue-date">${issue.createdDate}</p>
-            <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue" data-id="${issue.id}><span class="text-nowrap"">View Issue</span></button>
+            <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issue.id}">View Issue</button>
           </div>
           </div>
           <div class="card-header">

@@ -4,6 +4,8 @@ class CommentsAdapter {
   }
 
   getIssueComments(id) {
-    return fetch(this.baseURL + `issues/${id}/comments`).then(res => res.json())
+    return fetch(this.baseURL + `/issues/${id}/comments`).then(res => res.json())
   }
 }
+
+export const commentsAdapter = new CommentsAdapter();

@@ -1,3 +1,5 @@
+import { Comments } from './comments'
+
 export class Issue {
   constructor({ creator, description, id, open_status, resolved_date, title, created_at }) {
     this.creator = creator
@@ -6,6 +8,7 @@ export class Issue {
     this.openStatus = open_status
     this.resolvedDate = resolved_date
     this.title = title
+    this.commentsArray = []
     this.createdDate(created_at)
     this.setStatus()
   }
@@ -20,6 +23,12 @@ export class Issue {
 
   createdDate(created_at) {
     this.createdDate = Intl.DateTimeFormat().format(new Date(created_at));
+  }
+
+  getComments() {
+    this.comments = new Comments(this.id)
+
+    console.log(this.comments)
   }
 
 }
