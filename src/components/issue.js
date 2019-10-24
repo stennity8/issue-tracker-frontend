@@ -8,11 +8,11 @@ export class Issue {
     this.openStatus = open_status
     this.resolvedDate = resolved_date
     this.title = title
-    this.comments = {}
     this.createdDate(created_at)
     this.setStatus()
   }
 
+  // Set/update issue status
   setStatus() {
     if (this.openStatus === true) {
       this.status = 'Open'
@@ -21,11 +21,13 @@ export class Issue {
     }
   }
 
+  // Set date to locale format and /mm/dd/yyyy
   createdDate(created_at) {
     this.createdDate = Intl.DateTimeFormat().format(new Date(created_at));
   }
 
-  getComments() {
+  // Create Comments obj for issue
+  createComments() {
     this.comments = new Comments(this.id)
   }
 

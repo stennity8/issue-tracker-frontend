@@ -43,10 +43,18 @@ class Issues {
         const issueId = parseInt(e.target.dataset.id, 10)
         const issue = this.issuesArray.find(issue => issue.id === issueId)
 
-        //Fetch issue comments
-        issue.getComments()
-        console.log(issue)
+        // Check if comments already loaded
+        if (!issue.comments) {
+          //Fetch issue comments
+          issue.createComments()
+          issue.comments.fetchAndLoadIssueComments()
+            .then(() => renderIssue(issue));
+        } else {
+          renderIssue(issue)
+        }
+
       }
+
     }
   }
 
@@ -91,9 +99,9 @@ class Issues {
     this.issueContainer.innerHTML = issueCards
   }
 
+  renderIssue(issue) {
 
-
-
+  }
 
 }
 
