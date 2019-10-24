@@ -45,6 +45,7 @@ class Issues {
 
         //Fetch issue comments
         issue.getComments()
+        console.log(issue)
       }
     }
   }

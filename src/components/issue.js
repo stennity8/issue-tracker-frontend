@@ -8,7 +8,7 @@ export class Issue {
     this.openStatus = open_status
     this.resolvedDate = resolved_date
     this.title = title
-    this.commentsArray = []
+    this.comments = {}
     this.createdDate(created_at)
     this.setStatus()
   }
@@ -27,8 +27,6 @@ export class Issue {
 
   getComments() {
     this.comments = new Comments(this.id)
-
-    console.log(this.comments)
   }
 
 }
