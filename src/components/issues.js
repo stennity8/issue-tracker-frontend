@@ -9,6 +9,7 @@ class Issues {
     this.fetchAndLoadOpenIssues()
   }
 
+
   bindingsAndEventListeners() {
     this.issueContainer = document.querySelector('.issue-container')
 
@@ -16,8 +17,14 @@ class Issues {
     const newIssueForm = document.querySelector('#new-issue-container')
     let createNewIssue = false
 
+    // Listen for click on new issue button
+    createNewIssueBtn.addEventListener('click', toggleNewIssue)
+
+    //Listen for click on view issue button
+    this.issueContainer.addEventListener('click', viewIssue)
+
     //Hide or show create new issue form
-    createNewIssueBtn.addEventListener('click', () => {
+    function toggleNewIssue() {
       createNewIssue = !createNewIssue
       if (createNewIssue) {
         createNewIssueBtn.innerHTML = `<i class="fas fa-minus"></i> Hide`
@@ -26,7 +33,15 @@ class Issues {
         createNewIssueBtn.innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
         newIssueForm.style.display = 'none'
       }
-    })
+    }
+
+    // Show detailed issue view
+    function viewIssue(e) {
+      e.preventDefault();
+      if (e.target.classList.contains('view-issue')) {
+
+      }
+    }
   }
 
   //Fetch all open issues from API
@@ -55,8 +70,8 @@ class Issues {
             </div>
           <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
           <div class="ml-auto d-flex flex-column">
-            <p class="m-1 issue-date">12/12/12</p>
-            <button type="button" class="btn btn-primary p-1 ml-auto btn-sm" data-id="${issue.id}><span class="text-nowrap"">View Issue</span></button>
+            <p class="m-1 issue-date">${issue.createdDate}</p>
+            <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue" data-id="${issue.id}><span class="text-nowrap"">View Issue</span></button>
           </div>
           </div>
           <div class="card-header">
@@ -69,6 +84,11 @@ class Issues {
     //Add HTML to Issue conatainer
     this.issueContainer.innerHTML = issueCards
   }
+
+
+
+
+
 }
 
 export const issues = new Issues();
