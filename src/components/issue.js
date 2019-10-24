@@ -17,8 +17,4 @@ export class Issue {
     }
   }
 
-  bindEventListeners() {
-    this.container = document.getElementById(`${this.id}`)
-
-  }
 }
