@@ -9,7 +9,6 @@ class Issues {
     this.fetchAndLoadOpenIssues()
   }
 
-
   bindingsAndEventListeners() {
     this.issueContainer = document.querySelector('.issue-container')
 
@@ -116,13 +115,13 @@ class Issues {
       <div class="card-header">
         <h5 class="card-text issue-description">Description: ${issue.description}</h5>
         <div class="d-flex">
-          <button type="button" class="btn btn-primary p-1 mr-1 btn-sm"><i class="fas fa-thumbs-up m-1"></i>Issue
+          <button type="button" class="btn btn-primary p-1 mr-1 btn-sm resolve-issue"><i class="fas fa-thumbs-up m-1"></i>Issue
             Resolved</button>
-          <button type="button" class="btn btn-warning p-1 mr-1 btn-sm"><i
+          <button type="button" class="btn btn-warning p-1 mr-1 btn-sm edit-issue"><i
               class="fas fa-user-edit m-1"></i>Edit</button>
-          <button type="button" class="btn btn-danger p-1 mr-1 btn-sm"><i
+          <button type="button" class="btn btn-danger p-1 mr-1 btn-sm delete-issue"><i
               class="fas fa-trash-alt m-1"></i>Delete</button>
-          <i class="fas fa-times text-danger align-self-center ml-auto clickable"></i>
+          <i class="fas fa-times text-danger align-self-center ml-auto clickable close-view"></i>
         </div>
       </div>
       <div class="card-body">
@@ -156,6 +155,40 @@ class Issues {
     ).join('')
 
     commentContainer.innerHTML = commentCards
+
+    //Bind Event Listeners to Detail View buttons
+    issueContainer.querySelector('.close-view').addEventListener('click', this.closeView)
+    issueContainer.querySelector('.delete-issue').addEventListener('click', this.deleteIssue)
+    issueContainer.querySelector('.edit-issue').addEventListener('click', this.editIssue)
+    issueContainer.querySelector('.resolve-issue').addEventListener('click', this.resolveIssue)
+  }
+
+  //Hide buttons, comments, etc. and return view to basic issue view
+  closeView(e) {
+    e.preventDefault();
+    // Add view issue button back
+    const issueId = e.target.parentElement.parentElement.parentElement.parentElement.dataset.id
+    const issueDate = e.target.parentElement.parentElement.parentElement.querySelector('.issue-date')
+    const viewBtn = `<button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issueId}">View Issue</button>`
+    issueDate.insertAdjacentHTML('afterend', viewBtn)
+
+    //Remove card body
+    e.target.parentElement.parentElement.nextElementSibling.remove()
+
+    //Remove buttons
+    e.target.parentElement.remove()
+  }
+
+  deleteIssue() {
+    console.log('...issue being deleted');
+  }
+
+  editIssue() {
+    console.log('...issue being edited');
+  }
+
+  resolveIssue() {
+    console.log('...issue being resolved');
   }
 
 }
