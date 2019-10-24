@@ -138,7 +138,27 @@
 
   </div>
 
+  <div class="comment p-1 mb-1 border border-secondary" id="{comment-id}">
+    <div class="commentor-name comment-date d-flex flex-row">
+      <h6>Commentor Name</h6>
+      <h6 class="ml-auto">10/22/2019</h6>
+    </div>
+    <div class="comment">
+      <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam repudiandae
+        exercitationem hic voluptatum architecto quos aspernatur, minus quasi neque earum? </h6>
+    </div>
+  </div>
 
+  <!-- New Comment Form -->
+  <div class="form-group add-comment d-flex flex-column">
+    <label class="col-form-label font-weight-bold" for="inputDefault">Commentor Name</label>
+    <input type="text" class="form-control" placeholder="Add commentor name..." id="inputDefault">
+    <label class="col-form-label font-weight-bold" for="inputDefault">Comment</label>
+    <input type="text" class="form-control" placeholder="Add comment..." id="inputDefault">
+    <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block">
+      <i class="fas fa-plus"></i> Add Comment
+    </button>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

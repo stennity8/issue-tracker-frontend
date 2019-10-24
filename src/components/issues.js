@@ -48,13 +48,11 @@ class Issues {
           //Fetch issue comments
           issue.createComments()
           issue.comments.fetchAndLoadIssueComments()
-            .then(() => renderIssue(issue));
+            .then(() => this.renderIssue(issue));
         } else {
-          renderIssue(issue)
+          this.renderIssue(issue)
         }
-
       }
-
     }
   }
 
@@ -75,7 +73,7 @@ class Issues {
   renderOpenIssues() {
     //Create HTML for all cards
     let issueCards = this.issuesArray.map(issue =>
-      `<div class="container card-container p-0" data-id="${issue.id}">
+      `<div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
         <div class="card border-success mb-3">
           <div class="card-header d-flex p-1 bg-success align-items-center">
             <div class="status issue-number bg-light p-1 rounded">
@@ -100,7 +98,64 @@ class Issues {
   }
 
   renderIssue(issue) {
+    //Render detailed issue view without comments
+    let issueContainer = document.getElementById(`${issue.id}`)
+    issueContainer.innerHTML = `
+    <div class="container card-container p-0" data-id="${issue.id}">
+    <div class="card border-success mb-3">
+      <div class="card-header d-flex p-1 bg-success align-items-center">
+        <div class="status issue-number bg-light p-1 rounded">
+          <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
+          <h5 class="m-0 issue-status"><span class="badge badge-danger">${issue.status}</span></h5>
+        </div>
+        <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+        <div class="ml-auto d-flex flex-column">
+          <p class="m-1 issue-date">${issue.createdDate}</p>
+        </div>
+      </div>
+      <div class="card-header">
+        <h5 class="card-text issue-description">Description: ${issue.description}</h5>
+        <div class="d-flex">
+          <button type="button" class="btn btn-primary p-1 mr-1 btn-sm"><i class="fas fa-thumbs-up m-1"></i>Issue
+            Resolved</button>
+          <button type="button" class="btn btn-warning p-1 mr-1 btn-sm"><i
+              class="fas fa-user-edit m-1"></i>Edit</button>
+          <button type="button" class="btn btn-danger p-1 mr-1 btn-sm"><i
+              class="fas fa-trash-alt m-1"></i>Delete</button>
+          <i class="fas fa-times text-danger align-self-center ml-auto clickable"></i>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="d-flex">
+          <h5 class="card-title mb-1">Comments: </h5>
+          <button type="button" class="btn btn-primary p-1 mr-1 ml-auto btn-sm">
+            <i class="fas fa-plus"></i> Add Comment
+          </button>
+        </div>
 
+        <div class="comment-container d-flex flex-column p-0 mt-2">
+        </div>
+      </div>
+    </div>
+  </div>`
+
+    // Add comments to view
+    let commentContainer = issueContainer.querySelector('.comment-container')
+    let commentsArray = issue.comments.commentsArray
+
+    let commentCards = commentsArray.map(comment =>
+      `<div class="comment p-1 mb-1 border border-secondary" id="${comment.id}">
+      <div class="commentor-name comment-date d-flex flex-row">
+        <h6>${comment.commentor}</h6>
+        <h6 class="ml-auto">10/22/2019</h6>
+      </div>
+      <div class="comment">
+        <h6>${comment.description}</h6>
+      </div>
+    </div>`
+    ).join('')
+
+    commentContainer.innerHTML = commentCards
   }
 
 }

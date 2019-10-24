@@ -1,5 +1,6 @@
 export class Comment {
-  constructor({ issue_id, description, commentor, created_at }) {
+  constructor({ id, issue_id, description, commentor, created_at }) {
+    this.id = id
     this.issueId = issue_id
     this.description = description
     this.commentor = commentor
