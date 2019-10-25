@@ -206,6 +206,7 @@ class Issues {
 
     //Make POST request using adapter
     this.adapter.createNewIssue(issue)
+      .then(issue => new Issue(issue))
       .then(issue => {
         let issueContainer = document.querySelector('.issue-container')
         let newIssue = `
