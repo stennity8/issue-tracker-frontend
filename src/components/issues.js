@@ -29,8 +29,6 @@ class Issues {
 
     //Hide or show create new issue form
     function toggleNewIssue() {
-      console.log(this.createNewIssue);
-
       this.createNewIssue = !this.createNewIssue
       if (this.createNewIssue) {
         createNewIssueBtn.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
@@ -112,31 +110,31 @@ class Issues {
     issueContainer.innerHTML = `
     <div class="container card-container p-0" data-id="${issue.id}">
     <div class="card border-success mb-3">
-      <div class="card-header d-flex p-1 bg-success align-items-center">
-        <div class="status issue-number bg-light p-1 rounded">
+    <div class="card-header d-flex p-1 bg-success align-items-center">
+    <div class="status issue-number bg-light p-1 rounded">
           <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
           <h5 class="m-0 issue-status"><span class="badge badge-danger">${issue.status}</span></h5>
         </div>
         <div class="d-flex flex-column">
-          <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+        <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
           <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
         </div>
         <div class="ml-auto d-flex flex-column">
           <p class="m-1 issue-date">${issue.createdDate}</p>
-        </div>
+          </div>
       </div>
       <div class="card-header">
-        <h5 class="card-text issue-description">Description: ${issue.description}</h5>
+      <h5 class="card-text issue-description">Description: ${issue.description}</h5>
         <div class="d-flex">
           <button type="button" class="btn btn-primary p-1 mr-1 btn-sm resolve-issue"><i class="fas fa-thumbs-up m-1"></i>Issue
-            Resolved</button>
+          Resolved</button>
           <button type="button" class="btn btn-warning p-1 mr-1 btn-sm edit-issue"><i
               class="fas fa-user-edit m-1"></i>Edit</button>
           <button type="button" class="btn btn-danger p-1 mr-1 btn-sm delete-issue"><i
-              class="fas fa-trash-alt m-1"></i>Delete</button>
+          class="fas fa-trash-alt m-1"></i>Delete</button>
           <i class="fas fa-times text-danger align-self-center ml-auto clickable close-view"></i>
         </div>
-      </div>
+        </div>
       <div class="card-body">
         <div class="d-flex">
           <h5 class="card-title mb-1">Comments: </h5>
@@ -144,12 +142,12 @@ class Issues {
             <i class="fas fa-plus"></i> Add Comment
           </button>
         </div>
-
+        
         <div class="comment-container d-flex flex-column p-0 mt-2">
         </div>
-      </div>
-    </div>
-  </div>`
+        </div>
+        </div>
+        </div>`
 
     // Add comments to view
     let commentContainer = issueContainer.querySelector('.comment-container')
@@ -157,14 +155,14 @@ class Issues {
 
     let commentCards = commentsArray.map(comment =>
       `<div class="comment p-1 mb-1 border border-secondary" id="${comment.id}">
-      <div class="commentor-name comment-date d-flex flex-row">
-        <h6>${comment.commentor}</h6>
+          <div class="commentor-name comment-date d-flex flex-row">
+          <h6>${comment.commentor}</h6>
         <h6 class="ml-auto">10/22/2019</h6>
-      </div>
+        </div>
       <div class="comment">
-        <h6>${comment.description}</h6>
+      <h6>${comment.description}</h6>
       </div>
-    </div>`
+      </div>`
     ).join('')
 
     commentContainer.innerHTML = commentCards
@@ -206,18 +204,47 @@ class Issues {
       description
     }
 
+    //Make POST request using adapter
+    this.adapter.createNewIssue(issue)
+      .then(issue => {
+        let issueContainer = document.querySelector('.issue-container')
+        let newIssue = `
+        <div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
+          <div class="card border-success mb-3">
+            <div class="card-header d-flex p-1 bg-success align-items-center">
+              <div class="status issue-number bg-light p-1 rounded">
+                <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
+                <h5 class="m-0 issue-status"><span class="badge badge-danger">${issue.status}</span></h5>
+              </div>
+              <div class="d-flex flex-column">
+                <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+                <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
+              </div>
+              <div class="ml-auto d-flex flex-column">
+                <p class="m-1 issue-date">${issue.createdDate}</p>
+                <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issue.id}">View Issue</button>
+              </div>
+            </div>
+            <div class="card-header">
+              <h5 class="card-text issue-description">Description: ${issue.description}</h5>
+            </div>
+          </div>
+        </div>`
+
+        issueContainer.insertAdjacentHTML('afterend', newIssue)
+      })
+      .catch(function (error) {
+        alert("Unable to process");
+        console.log(error.message);
+      });
+
     //Clear and hide form
+    this.createNewIssue = false
     document.querySelector('button#create-new-issue').innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
     document.querySelector('#new-issue-container').style.display = 'none'
-    this.createNewIssue = false
-
-    // //Make POST request using adapter
-    // this.adapter.createNewIssue(issue)
-    //   .then(data => console.log(data))
-    //   .catch(function (error) {
-    //     alert("Unable to process");
-    //     console.log(error.message);
-    //   });
+    form.querySelector('#creator').value = ''
+    form.querySelector('#issue-title').value = ''
+    form.querySelector('#issue-description').value = ''
   }
 
   deleteIssue() {
