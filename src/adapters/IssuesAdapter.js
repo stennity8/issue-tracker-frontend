@@ -17,9 +17,7 @@ class IssuesAdapter {
       body: JSON.stringify(issue)
     };
 
-    return fetch(`http://localhost:3000/api/v1/issues`, configObj)
-      .then(res => res.json())
-
+    return fetch(`http://localhost:3000/api/v1/issues`, configObj).then(res => res.json())
   }
 }
 
