@@ -248,29 +248,33 @@ class Issues {
     form.querySelector('#issue-description').value = ''
   }
 
+  // Delete existing issue
   deleteIssue() {
     console.log('...issue being deleted');
   }
 
+  // Edit existing issue
   editIssue() {
     console.log('...issue being edited');
   }
 
+  // Change existing issue status from Open to Closed
   resolveIssue() {
     console.log('...issue being resolved');
   }
 
+  // Toggle display of new comment form
   toggleAddComment(e) {
     const commentForm = `
-    <div class="form-group add-comment d-flex flex-column mt-1">
+    <form class="form-group add-comment d-flex flex-column mt-1">
       <label class="col-form-label font-weight-bold" for="add-commentor">Commentor Name</label>
-      <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor">
+      <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor" name="commentor">
       <label class="col-form-label font-weight-bold" for="add-comment">Comment</label>
-      <input type="text" class="form-control" placeholder="Add comment..." id="add-comment">
+      <input type="text" class="form-control" placeholder="Add comment..." id="add-comment" name="description">
       <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-comment">
         <i class="fas fa-plus"></i> Add Comment
      </button>
-    </div>
+    </form>
     `
     this.addComment = !this.addComment
 
@@ -287,8 +291,22 @@ class Issues {
 
   }
 
+  // Create new issue for comment
   createComment(e) {
-    console.log('...comment being created');
+    const issueCard = e.target.parentElement.parentElement.parentElement.parentElement
+    const issue_id = issueCard.dataset.id
+
+    const form = issueCard.querySelector('form')
+    const formData = new FormData(form)
+    const description = formData.get('description')
+    const commentor = formData.get('commentor')
+
+    const comment = {
+      issue_id,
+      description,
+      commentor
+    }
+
   }
 }
 
