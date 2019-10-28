@@ -279,17 +279,17 @@ class Issues {
       e.target.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
       e.target.parentElement.insertAdjacentHTML('afterend', commentForm);
       //Bind event listener to create comment
-      e.target.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', createComment)
+      e.target.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', (e) => issues.createComment(e))
     } else {
-      e.target.innerHTML = `<i class="fas fa-plus"></i> View Issue`
+      e.target.innerHTML = `<i class="fas fa-plus"></i> Add Comment`
       e.target.parentElement.nextElementSibling.remove();
     }
 
-    function createComment(e) {
-      console.log('...comment being created');
-    }
   }
 
+  createComment(e) {
+    console.log('...comment being created');
+  }
 }
 
 export const issues = new Issues();
