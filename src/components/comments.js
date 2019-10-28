@@ -6,7 +6,6 @@ export class Comments {
     this.issueId = id
     this.commentsArray = []
     this.adapter = commentsAdapter
-    // this.bindingsAndEventListeners()
   }
 
   //Fetch all open issues from API
@@ -17,6 +16,14 @@ export class Comments {
         comments.forEach(commentObj => this.commentsArray.push(new Comment(commentObj)))
       })
       .catch(err => alert('Something went wrong'));
+  }
+
+  //Make POST request for new comment and add to comments array
+
+  createNewComment(comment) {
+    return this.adapter
+      .createNewCommentInstance(comment)
+      .then(data => this.commentsArray.push(new Comment(data)))
   }
 }
 
