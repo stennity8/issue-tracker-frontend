@@ -153,13 +153,13 @@ class Issues {
     let commentCards = commentsArray.map(comment =>
       `<div class="comment p-1 mb-1 border border-secondary" id="${comment.id}">
           <div class="commentor-name comment-date d-flex flex-row">
-          <h6>${comment.commentor}</h6>
-        <h6 class="ml-auto">10/22/2019</h6>
-        </div>
-      <div class="comment">
-      <h6>${comment.description}</h6>
-      </div>
-      </div>`
+            <h6>${comment.commentor}</h6>
+            <h6 class="ml-auto">10/22/2019</h6>
+          </div>
+          <div class="comment">
+            <h6>${comment.description}</h6>
+          </div>
+        </div>`
     ).join('')
 
     commentContainer.innerHTML = commentCards
@@ -243,9 +243,7 @@ class Issues {
     this.createNewIssue = false
     document.querySelector('button#create-new-issue').innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
     document.querySelector('#new-issue-container').style.display = 'none'
-    form.querySelector('#creator').value = ''
-    form.querySelector('#issue-title').value = ''
-    form.querySelector('#issue-description').value = ''
+    form.reset()
   }
 
   // Delete existing issue
@@ -288,13 +286,13 @@ class Issues {
       e.target.innerHTML = `<i class="fas fa-plus"></i> Add Comment`
       e.target.parentElement.nextElementSibling.remove();
     }
-
   }
 
   // Create new issue for comment
   createComment(e) {
     const issueCard = e.target.parentElement.parentElement.parentElement.parentElement
     const issueId = issueCard.dataset.id
+    const commentContainer = issueCard.querySelector('.comment-container')
     const issue = this.issuesArray.find(issue => issue.id === parseInt(issueId, 10))
 
     const form = issueCard.querySelector('form')
@@ -310,36 +308,21 @@ class Issues {
 
     //Call comments class to create new comment
     issue.comments.createNewComment(comment)
-      .then((comment) => {
-        console.log(comment)
-        // const issueObj = this.issuesArray.slice(-1)[0]
-        // let newIssue = `
-        // <div class="container card-container p-0" data-id="${issueObj.id}" id="${issueObj.id}">
-        //   <div class="card border-success mb-3">
-        //     <div class="card-header d-flex p-1 bg-success align-items-center">
-        //       <div class="status issue-number bg-light p-1 rounded">
-        //         <h5 class="m-0 issue-id"><span class="badge">#${issueObj.id}</span></h5>
-        //         <h5 class="m-0 issue-status"><span class="badge badge-danger">${issueObj.status}</span></h5>
-        //       </div>
-        //       <div class="d-flex flex-column">
-        //         <h4 class="issue-title ml-2 mb-0"><strong>${issueObj.title}</strong></h4>
-        //         <p class="issue-title ml-2 mb-0"><em>${issueObj.creator}</em></p>
-        //       </div>
-        //       <div class="ml-auto d-flex flex-column">
-        //         <p class="m-1 issue-date">${issueObj.createdDate}</p>
-        //         <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issueObj.id}">View Issue</button>
-        //       </div>
-        //     </div>
-        //     <div class="card-header">
-        //       <h5 class="card-text issue-description">Description: ${issueObj.description}</h5>
-        //     </div>
-        //   </div>
-        // </div>`
+      .then(() => {
+        const commentObj = issue.comments.commentsArray.slice(-1)[0]
+        let newComment = `
+          <div class="comment p-1 mb-1 border border-secondary" id="${commentObj.id}">
+            <div class="commentor-name comment-date d-flex flex-row">
+              <h6>${commentObj.commentor}</h6>
+              <h6 class="ml-auto">10/22/2019</h6>
+            </div>
+            <div class="comment">
+              <h6>${commentObj.description}</h6>
+            </div>
+          </div>`
 
-        // this.issueContainer.insertAdjacentHTML('beforeend', newIssue)
-
-        // // Add view button event listener to new issue
-        // document.getElementById(`${issueObj.id}`).addEventListener('click', (e) => this.viewIssue(e))
+        commentContainer.insertAdjacentHTML('beforeend', newComment)
+        form.reset()
       })
       .catch(function (error) {
         alert("Unable to process");
