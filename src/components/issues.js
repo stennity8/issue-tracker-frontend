@@ -7,19 +7,31 @@ class Issues {
     this.adapter = issuesAdapter
     this.addComment = false
     this.createNewIssue = false
+    this.createNewIssueBtn = document.querySelector('button#create-new-issue')
+    this.newIssueForm = document.querySelector('#new-issue-container')
+
     this.bindingsAndEventListeners()
     this.fetchAndLoadOpenIssues()
+  }
+  //Hide or show create new issue form
+  toggleNewIssue() {
+    this.createNewIssue = !this.createNewIssue
+    if (this.createNewIssue) {
+      this.createNewIssueBtn.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
+      this.newIssueForm.style.display = 'block'
+    } else {
+      this.createNewIssueBtn.innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
+      this.newIssueForm.style.display = 'none'
+    }
   }
 
   bindingsAndEventListeners() {
     this.issueContainer = document.querySelector('.issue-container')
 
-    const createNewIssueBtn = document.querySelector('button#create-new-issue')
-    const newIssueForm = document.querySelector('#new-issue-container')
     const createIssueBtn = document.querySelector('button.create-issue')
 
     // Listen for click on new issue button
-    createNewIssueBtn.addEventListener('click', toggleNewIssue.bind(this))
+    this.createNewIssueBtn.addEventListener('click', (e) => this.toggleNewIssue(e))
 
     // Listen for click on create issue button
     createIssueBtn.addEventListener('click', this.createIssue.bind(this))
@@ -27,17 +39,6 @@ class Issues {
     //Listen for click on view issue button
     this.issueContainer.addEventListener('click', viewIssue.bind(this))
 
-    //Hide or show create new issue form
-    function toggleNewIssue() {
-      this.createNewIssue = !this.createNewIssue
-      if (this.createNewIssue) {
-        createNewIssueBtn.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
-        newIssueForm.style.display = 'block'
-      } else {
-        createNewIssueBtn.innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
-        newIssueForm.style.display = 'none'
-      }
-    }
 
     // Show detailed issue view
     function viewIssue(e) {
