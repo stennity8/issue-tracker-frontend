@@ -165,11 +165,11 @@ class Issues {
     commentContainer.innerHTML = commentCards
 
     //Bind Event Listeners to Detail View buttons
-    issueContainer.querySelector('.close-view').addEventListener('click', this.closeView)
-    issueContainer.querySelector('.delete-issue').addEventListener('click', this.deleteIssue)
-    issueContainer.querySelector('.edit-issue').addEventListener('click', this.editIssue)
-    issueContainer.querySelector('.resolve-issue').addEventListener('click', this.resolveIssue)
-    issueContainer.querySelector('.add-comment').addEventListener('click', this.toggleAddComment)
+    issueContainer.querySelector('.close-view').addEventListener('click', (e) => this.closeView(e))
+    issueContainer.querySelector('.delete-issue').addEventListener('click', (e) => this.deleteIssue(e))
+    issueContainer.querySelector('.edit-issue').addEventListener('click', (e) => this.editIssue(e))
+    issueContainer.querySelector('.resolve-issue').addEventListener('click', (e) => this.resolveIssue(e))
+    issueContainer.querySelector('.add-comment').addEventListener('click', (e) => this.toggleAddComment(e))
   }
 
   //Hide buttons, comments, etc. and return view to basic issue view
@@ -266,14 +266,14 @@ class Issues {
   toggleAddComment(e) {
     const commentForm = `
     <form class="form-group add-comment d-flex flex-column mt-1">
-      <label class="col-form-label font-weight-bold" for="add-commentor">Commentor Name</label>
-      <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor" name="commentor">
-      <label class="col-form-label font-weight-bold" for="add-comment">Comment</label>
-      <textarea class="form-control" placeholder="Add comment......" id="add-comment"
-          name="description"></textarea>
-      <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-comment">
-        <i class="fas fa-plus"></i> Add Comment
-     </button>
+    <label class="col-form-label font-weight-bold" for="add-commentor">Commentor Name</label>
+    <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor" name="commentor">
+    <label class="col-form-label font-weight-bold" for="add-comment">Comment</label>
+    <textarea class="form-control" placeholder="Add comment......" id="add-comment"
+    name="description"></textarea>
+    <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-comment">
+    <i class="fas fa-plus"></i> Add Comment
+    </button>
     </form>
     `
     this.addComment = !this.addComment
@@ -286,12 +286,13 @@ class Issues {
       e.target.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', (e) => issues.createComment(e))
     } else {
       e.target.innerHTML = `<i class="fas fa-plus"></i> Add Comment`
-      e.target.parentElement.nextElementSibling.remove();
+      e.target.parentElement.parentElement.querySelector('form').remove();
     }
   }
 
   // Create new issue for comment
   createComment(e) {
+    this.addComment = false
     const issueCard = e.target.parentElement.parentElement.parentElement.parentElement
     const issueId = issueCard.dataset.id
     const commentContainer = issueCard.querySelector('.comment-container')
@@ -307,7 +308,6 @@ class Issues {
       description,
       commentor
     }
-
     //Call comments class to create new comment
     issue.comments.createNewComment(comment)
       .then(() => {
@@ -322,9 +322,12 @@ class Issues {
               <h6>${commentObj.description}</h6>
             </div>
           </div>`
-
+        // Insert comment
         commentContainer.insertAdjacentHTML('beforeend', newComment)
-        form.reset()
+        //Hide form
+        issueCard.querySelector('button.add-comment').innerHTML = `<i class="fas fa-plus"></i> Add Comment`
+        form.remove();
+        this.addComment = false
       })
       .catch(function (error) {
         alert("Unable to process");
