@@ -257,7 +257,8 @@ class Issues {
   }
 
   // Change existing issue status from Open to Closed
-  resolveIssue() {
+  resolveIssue(e) {
+    console.log(e.target)
     console.log('...issue being resolved');
   }
 
@@ -268,7 +269,8 @@ class Issues {
       <label class="col-form-label font-weight-bold" for="add-commentor">Commentor Name</label>
       <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor" name="commentor">
       <label class="col-form-label font-weight-bold" for="add-comment">Comment</label>
-      <input type="text" class="form-control" placeholder="Add comment..." id="add-comment" name="description">
+      <textarea class="form-control" placeholder="Add comment......" id="add-comment"
+          name="description"></textarea>
       <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-comment">
         <i class="fas fa-plus"></i> Add Comment
      </button>
