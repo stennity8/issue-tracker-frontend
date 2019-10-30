@@ -31,6 +31,11 @@ class IssuesAdapter {
 
     return fetch(`http://localhost:3000/api/v1/issues/${issueId}`, configObj).then(res => res.json())
   }
+
+  removeIssue(issueId) {
+
+    return fetch(`http://localhost:3000/api/v1/issues/${issueId}`, { method: "DELETE" }).then(res => res.json())
+  }
 }
 
 export const issuesAdapter = new IssuesAdapter();

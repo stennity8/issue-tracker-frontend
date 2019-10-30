@@ -257,8 +257,19 @@ class Issues {
   }
 
   // Delete existing issue
-  deleteIssue() {
-    console.log('...issue being deleted');
+  deleteIssue(e) {
+    const issue = this.getIssueInfo(e)
+
+    this.adapter.removeIssue(issue.id)
+      .then(data => {
+        //Create new openIssuesArray without issue
+        this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
+      })
+      .then(() => this.renderOpenIssues())
+      .catch(function (error) {
+        alert("Unable to process");
+        console.log(error.message);
+      });
   }
 
   // Edit existing issue
