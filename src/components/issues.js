@@ -257,7 +257,8 @@ class Issues {
 
   // Delete existing issue
   deleteIssue(e) {
-    const issue = this.getIssueInfo(e)
+    let deleteBtn = e.target.closest('button.delete-issue')
+    const issue = this.getIssueInfo(deleteBtn)
 
     this.adapter.removeIssue(issue.id)
       .then(data => {
@@ -307,8 +308,9 @@ class Issues {
 
   // Change existing issue status from Open to Closed
   resolveIssue(e) {
+    let resolveBtn = e.target.closest('button.resolve-issue')
     //Get issue
-    const issue = this.getIssueInfo(e)
+    const issue = this.getIssueInfo(resolveBtn)
     const id = issue.id
     //Update issue in DB to resolved
     const idObj = {
