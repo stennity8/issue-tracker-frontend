@@ -273,17 +273,24 @@ class Issues {
     const id = issue.id
     //Update issue in DB to resolved
     const idObj = {
-      open_status: false
+      open_status: false,
+      resolved_date: new Date()
     }
 
     this.adapter.resolveIssue(idObj, id)
-      .then(data => console.log(data))
+      .then(data => {
+        //Create new openIssuesArray without issue
+        this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
+        // Add to closedIssuesArray
+        if (this.closedIssuesArray.filter(issue => issue.id === data.id).length === 0) {
+          this.closedIssuesArray.push(new Issue(data))
+        }
+      })
+      .then(() => this.renderOpenIssues())
       .catch(function (error) {
         alert("Unable to process");
         console.log(error.message);
       });
-    // .then(data => this.openIssuesArray.push(new Issue(data)))
-    console.log('...issue being resolved');
   }
 
   // Toggle display of new comment form
