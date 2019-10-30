@@ -19,6 +19,18 @@ class IssuesAdapter {
 
     return fetch(`http://localhost:3000/api/v1/issues`, configObj).then(res => res.json())
   }
+
+  resolveIssue(issueObj, issueId) {
+    let configObj = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(issueObj)
+    };
+
+    return fetch(`http://localhost:3000/api/v1/issues/${issueId}`, configObj).then(res => res.json())
+  }
 }
 
 export const issuesAdapter = new IssuesAdapter();

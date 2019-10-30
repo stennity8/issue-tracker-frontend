@@ -3,7 +3,8 @@ import { Issue } from './issue'
 
 class Issues {
   constructor() {
-    this.issuesArray = []
+    this.openIssuesArray = []
+    this.closedIssuesArray = []
     this.adapter = issuesAdapter
     this.addComment = false
     this.createNewIssue = false
@@ -16,6 +17,7 @@ class Issues {
   }
   //Hide or show create new issue form
   toggleNewIssue() {
+    this.createNewIssueBtn.innerHTML = ''
     this.createNewIssue = !this.createNewIssue
     if (this.createNewIssue) {
       this.createNewIssueBtn.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
@@ -30,9 +32,9 @@ class Issues {
   viewIssue(e) {
     e.preventDefault();
     if (e.target.classList.contains('view-issue')) {
-      //Get issue id and find the issue object in issuesArray
+      //Get issue id and find the issue object in openIssuesArray
       const issueId = parseInt(e.target.dataset.id, 10)
-      const issue = this.issuesArray.find(issue => issue.id === issueId)
+      const issue = this.openIssuesArray.find(issue => issue.id === issueId)
 
       // Check if comments already loaded
       if (!issue.comments) {
@@ -62,7 +64,7 @@ class Issues {
     this.adapter
       .getOpenIssues()
       .then(issues => {
-        issues.forEach(issue => this.issuesArray.push(new Issue(issue)))
+        issues.forEach(issue => this.openIssuesArray.push(new Issue(issue)))
       })
       .then(() => {
         this.renderOpenIssues()
@@ -73,7 +75,7 @@ class Issues {
   //Render all open issues to DOM
   renderOpenIssues() {
     //Create HTML for all cards
-    let issueCards = this.issuesArray.map(issue =>
+    let issueCards = this.openIssuesArray.map(issue =>
       `<div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
         <div class="card border-success mb-3">
           <div class="card-header d-flex p-1 bg-success align-items-center">
@@ -203,9 +205,9 @@ class Issues {
 
     //Make POST request using adapter
     this.adapter.createNewIssue(issue)
-      .then(data => this.issuesArray.push(new Issue(data)))
+      .then(data => this.openIssuesArray.push(new Issue(data)))
       .then(() => {
-        const issueObj = this.issuesArray.slice(-1)[0]
+        const issueObj = this.openIssuesArray.slice(-1)[0]
         let newIssue = `
         <div class="container card-container p-0" data-id="${issueObj.id}" id="${issueObj.id}">
           <div class="card border-success mb-3">
@@ -246,6 +248,14 @@ class Issues {
     form.reset()
   }
 
+  // Get issue info from 'Issue Resolved', 'Edit', & 'Delete' buttons
+  getIssueInfo(e) {
+    const issueId = parseInt(e.target.parentElement.parentElement.parentElement.parentElement.dataset.id, 10)
+    const issue = this.openIssuesArray.find(issue => issue.id === issueId)
+
+    return issue
+  }
+
   // Delete existing issue
   deleteIssue() {
     console.log('...issue being deleted');
@@ -258,22 +268,39 @@ class Issues {
 
   // Change existing issue status from Open to Closed
   resolveIssue(e) {
-    console.log(e.target)
+    //Get issue
+    const issue = this.getIssueInfo(e)
+    const id = issue.id
+    //Update issue in DB to resolved
+    const idObj = {
+      open_status: false
+    }
+
+    this.adapter.resolveIssue(idObj, id)
+      .then(data => console.log(data))
+      .catch(function (error) {
+        alert("Unable to process");
+        console.log(error.message);
+      });
+    // .then(data => this.openIssuesArray.push(new Issue(data)))
     console.log('...issue being resolved');
   }
 
   // Toggle display of new comment form
   toggleAddComment(e) {
+    //Clear button text
+    e.target.innerHTML = ''
+
     const commentForm = `
     <form class="form-group add-comment d-flex flex-column mt-1">
-    <label class="col-form-label font-weight-bold" for="add-commentor">Commentor Name</label>
-    <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor" name="commentor">
-    <label class="col-form-label font-weight-bold" for="add-comment">Comment</label>
-    <textarea class="form-control" placeholder="Add comment......" id="add-comment"
-    name="description"></textarea>
-    <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-comment">
-    <i class="fas fa-plus"></i> Add Comment
-    </button>
+      <label class="col-form-label font-weight-bold" for="add-commentor">Commentor Name</label>
+      <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor" name="commentor">
+      <label class="col-form-label font-weight-bold" for="add-comment">Comment</label>
+      <textarea class="form-control" placeholder="Add comment......" id="add-comment"
+      name="description"></textarea>
+      <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-comment">
+        <i class="fas fa-plus"></i> Add Comment
+      </button>
     </form>
     `
     this.addComment = !this.addComment
@@ -283,7 +310,7 @@ class Issues {
       e.target.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
       e.target.parentElement.insertAdjacentHTML('afterend', commentForm);
       //Bind event listener to create comment
-      e.target.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', (e) => issues.createComment(e))
+      e.target.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', (e) => this.createComment(e))
     } else {
       e.target.innerHTML = `<i class="fas fa-plus"></i> Add Comment`
       e.target.parentElement.parentElement.querySelector('form').remove();
@@ -296,7 +323,7 @@ class Issues {
     const issueCard = e.target.parentElement.parentElement.parentElement.parentElement
     const issueId = issueCard.dataset.id
     const commentContainer = issueCard.querySelector('.comment-container')
-    const issue = this.issuesArray.find(issue => issue.id === parseInt(issueId, 10))
+    const issue = this.openIssuesArray.find(issue => issue.id === parseInt(issueId, 10))
 
     const form = issueCard.querySelector('form')
     const formData = new FormData(form)
@@ -325,9 +352,9 @@ class Issues {
         // Insert comment
         commentContainer.insertAdjacentHTML('beforeend', newComment)
         //Hide form
-        issueCard.querySelector('button.add-comment').innerHTML = `<i class="fas fa-plus"></i> Add Comment`
         form.remove();
         this.addComment = false
+        issueCard.querySelector('button.add-comment').innerHTML = `<i class="fas fa-plus"></i> Add Comment`
       })
       .catch(function (error) {
         alert("Unable to process");
