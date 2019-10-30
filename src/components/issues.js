@@ -35,7 +35,6 @@ class Issues {
       //Get issue id and find the issue object in openIssuesArray
       const issueId = parseInt(e.target.dataset.id, 10)
       const issue = this.openIssuesArray.find(issue => issue.id === issueId)
-
       // Check if comments already loaded
       if (!issue.comments) {
         //Fetch issue comments
@@ -153,7 +152,7 @@ class Issues {
     let commentsArray = issue.comments.commentsArray
 
     let commentCards = commentsArray.map(comment =>
-      `<div class="comment p-1 mb-1 border border-secondary" id="${comment.id}">
+      `<div class="comment p-1 mb-1 border border-secondary" data-id="${comment.id}">
           <div class="commentor-name comment-date d-flex flex-row">
             <h6>${comment.commentor}</h6>
             <h6 class="ml-auto">10/22/2019</h6>
@@ -306,8 +305,8 @@ class Issues {
 
   // Toggle display of new comment form
   toggleAddComment(e) {
-    //Clear button text
-    e.target.innerHTML = ''
+    //Check button text
+    let addComment = e.target.innerText
 
     const commentForm = `
     <form class="form-group add-comment d-flex flex-column mt-1">
@@ -321,15 +320,13 @@ class Issues {
       </button>
     </form>
     `
-    this.addComment = !this.addComment
-
     //Hide or show create new comment form
-    if (this.addComment) {
+    if (addComment === ' Add Comment') {
       e.target.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
       e.target.parentElement.insertAdjacentHTML('afterend', commentForm);
       //Bind event listener to create comment
       e.target.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', (e) => this.createComment(e))
-    } else {
+    } else if (addComment === ' Hide Form') {
       e.target.innerHTML = `<i class="fas fa-plus"></i> Add Comment`
       e.target.parentElement.parentElement.querySelector('form').remove();
     }
