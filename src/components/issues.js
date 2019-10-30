@@ -248,8 +248,8 @@ class Issues {
   }
 
   // Get issue info from 'Issue Resolved', 'Edit', & 'Delete' buttons
-  getIssueInfo(e) {
-    const issueId = parseInt(e.target.parentElement.parentElement.parentElement.parentElement.dataset.id, 10)
+  getIssueInfo(btn) {
+    const issueId = parseInt(btn.parentElement.parentElement.parentElement.parentElement.dataset.id, 10)
     const issue = this.openIssuesArray.find(issue => issue.id === issueId)
 
     return issue
@@ -273,10 +273,12 @@ class Issues {
 
   // Edit existing issue
   editIssue(e) {
-    const issueForEdit = this.getIssueInfo(e)
-    const cardHeader = e.target.parentElement.parentElement;
-    let editIssue = `
-    <div class="edit-issue-container" id="edit-issue-container">
+    //Create prefilled form and change button
+    let editBtn = e.target.closest('button.edit-issue')
+    const issueForEdit = this.getIssueInfo(editBtn)
+    const cardHeader = editBtn.parentElement.parentElement;
+
+    const issueEditForm = `
     <form class="form-group add-issue d-flex flex-column">
     <label class="col-form-label font-weight-bold" for="creator">Creator</label>
     <input type="text" class="form-control" placeholder="Add issue title..." id="creator" name="creator" value="${issueForEdit.creator}">
@@ -288,10 +290,19 @@ class Issues {
     <i class="fas fa-plus"></i> Update Issue
     </button>
     </form>
-    </div>`
+    `
 
-    console.log(cardHeader);
-    cardHeader.insertAdjacentHTML('beforeend', editIssue)
+    //Hide or show edit issue form
+    if (editBtn.innerText === 'Edit') {
+      editBtn.innerHTML = `<i class="fas fa-times m-1"></i> Hide Edit`
+      cardHeader.insertAdjacentHTML('beforeend', issueEditForm);
+      //Bind event listener to update issue button
+      // e.target.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', (e) => this.createComment(e))
+    } else if (editBtn.innerText === ' Hide Edit') {
+      editBtn.innerHTML = `<i class="fas fa-user-edit m-1"></i>Edit`
+      // console.log(cardHeader.lastChild)
+      cardHeader.lastElementChild.remove();
+    }
   }
 
   // Change existing issue status from Open to Closed
