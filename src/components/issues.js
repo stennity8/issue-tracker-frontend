@@ -272,8 +272,26 @@ class Issues {
   }
 
   // Edit existing issue
-  editIssue() {
-    console.log('...issue being edited');
+  editIssue(e) {
+    const issueForEdit = this.getIssueInfo(e)
+    const cardHeader = e.target.parentElement.parentElement;
+    let editIssue = `
+    <div class="edit-issue-container" id="edit-issue-container">
+    <form class="form-group add-issue d-flex flex-column">
+    <label class="col-form-label font-weight-bold" for="creator">Creator</label>
+    <input type="text" class="form-control" placeholder="Add issue title..." id="creator" name="creator" value="${issueForEdit.creator}">
+    <label class="col-form-label font-weight-bold" for="issue-title">Issue Title</label>
+    <input type="text" class="form-control" placeholder="Add issue title..." id="issue-title" name="title" value="${issueForEdit.title}">
+    <label class="col-form-label font-weight-bold" for="issue-description">Description</label>
+    <textarea class="form-control" placeholder="Add issue description..." id="issue-description" name="description">${issueForEdit.description}</textarea>
+    <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-issue">
+    <i class="fas fa-plus"></i> Update Issue
+    </button>
+    </form>
+    </div>`
+
+    console.log(cardHeader);
+    cardHeader.insertAdjacentHTML('beforeend', editIssue)
   }
 
   // Change existing issue status from Open to Closed
@@ -287,7 +305,7 @@ class Issues {
       resolved_date: new Date()
     }
 
-    this.adapter.resolveIssue(idObj, id)
+    this.adapter.updateIssue(idObj, id)
       .then(data => {
         //Create new openIssuesArray without issue
         this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
@@ -310,16 +328,16 @@ class Issues {
 
     const commentForm = `
     <form class="form-group add-comment d-flex flex-column mt-1">
-      <label class="col-form-label font-weight-bold" for="add-commentor">Commentor Name</label>
-      <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor" name="commentor">
-      <label class="col-form-label font-weight-bold" for="add-comment">Comment</label>
-      <textarea class="form-control" placeholder="Add comment......" id="add-comment"
-      name="description"></textarea>
-      <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-comment">
-        <i class="fas fa-plus"></i> Add Comment
+          <label class="col-form-label font-weight-bold" for="add-commentor">Commentor Name</label>
+          <input type="text" class="form-control" placeholder="Add commentor name..." id="add-commentor" name="commentor">
+            <label class="col-form-label font-weight-bold" for="add-comment">Comment</label>
+            <textarea class="form-control" placeholder="Add comment......" id="add-comment"
+              name="description"></textarea>
+            <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-comment">
+              <i class="fas fa-plus"></i> Add Comment
       </button>
     </form>
-    `
+          `
     //Hide or show create new comment form
     if (addComment === ' Add Comment') {
       e.target.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
