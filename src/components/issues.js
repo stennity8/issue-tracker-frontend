@@ -79,7 +79,7 @@ class Issues {
       this.renderOpenIssues()
 
       //Bind event listener to newly rendered create new issue button
-      document.getElementById('create-new-issue').addEventListener('click', (e) => this.createIssue(e))
+      document.getElementById('create-new-issue').addEventListener('click', this.toggleNewIssue)
 
     } else if (e.target.closest('button').innerText === 'View Closed') {
       //Update heading and render closed issues
