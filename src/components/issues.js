@@ -107,32 +107,29 @@ class Issues {
     let issueContainer = document.getElementById(`${issue.id}`)
     issueContainer.innerHTML = `
     <div class="container card-container p-0" data-id="${issue.id}">
-    <div class="card border-success mb-3">
-    <div class="card-header d-flex p-1 bg-success align-items-center">
-    <div class="status issue-number bg-light p-1 rounded">
-          <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
-          <h5 class="m-0 issue-status"><span class="badge badge-danger">${issue.status}</span></h5>
+      <div class="card border-success mb-3">
+        <div class="card-header d-flex p-1 bg-success align-items-center">
+          <div class="status issue-number bg-light p-1 rounded">
+            <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
+           <h5 class="m-0 issue-status"><span class="badge badge-danger">${issue.status}</span></h5>
         </div>
         <div class="d-flex flex-column">
-        <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+          <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
           <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
         </div>
         <div class="ml-auto d-flex flex-column">
           <p class="m-1 issue-date">${issue.createdDate}</p>
-          </div>
+        </div>
       </div>
-      <div class="card-header">
+    <div class="card-header">
       <h5 class="card-text issue-description">Description: ${issue.description}</h5>
-        <div class="d-flex">
-          <button type="button" class="btn btn-primary p-1 mr-1 btn-sm resolve-issue"><i class="fas fa-thumbs-up m-1"></i>Issue
-          Resolved</button>
-          <button type="button" class="btn btn-warning p-1 mr-1 btn-sm edit-issue"><i
-              class="fas fa-user-edit m-1"></i>Edit</button>
-          <button type="button" class="btn btn-danger p-1 mr-1 btn-sm delete-issue"><i
-          class="fas fa-trash-alt m-1"></i>Delete</button>
-          <i class="fas fa-times text-danger align-self-center ml-auto clickable close-view"></i>
+      <div class="d-flex">
+        <button type="button" class="btn btn-primary p-1 mr-1 btn-sm resolve-issue"><i class="fas fa-thumbs-up m-1"></i>Issue Resolved</button>
+        <button type="button" class="btn btn-warning p-1 mr-1 btn-sm edit-issue"><i class="fas fa-user-edit m-1"></i>Edit</button>
+        <button type="button" class="btn btn-danger p-1 mr-1 btn-sm delete-issue"><i class="fas fa-trash-alt m-1"></i>Delete</button>
+        <i class="fas fa-times text-danger align-self-center ml-auto clickable close-view"></i>
         </div>
-        </div>
+      </div>
       <div class="card-body">
         <div class="d-flex">
           <h5 class="card-title mb-1">Comments: </h5>
@@ -143,9 +140,9 @@ class Issues {
         
         <div class="comment-container d-flex flex-column p-0 mt-2">
         </div>
-        </div>
-        </div>
-        </div>`
+      </div>
+    </div>
+    </div>`
 
     // Add comments to view
     let commentContainer = issueContainer.querySelector('.comment-container')
@@ -280,14 +277,14 @@ class Issues {
     const cardHeader = editBtn.parentElement.parentElement;
 
     const issueEditForm = `
-    <form class="form-group add-issue d-flex flex-column">
+    <form class="form-group edit-issue d-flex flex-column">
       <label class="col-form-label font-weight-bold" for="creator">Creator</label>
       <input type="text" class="form-control" placeholder="Add issue title..." id="creator" name="creator" value="${issueForEdit.creator}">
       <label class="col-form-label font-weight-bold" for="issue-title">Issue Title</label>
       <input type="text" class="form-control" placeholder="Add issue title..." id="issue-title" name="title" value="${issueForEdit.title}">
       <label class="col-form-label font-weight-bold" for="issue-description">Description</label>
       <textarea class="form-control" placeholder="Add issue description..." id="issue-description" name="description">${issueForEdit.description}</textarea>
-      <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-issue">
+      <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block update-issue">
         <i class="fas fa-plus"></i> Update Issue
       </button>
     </form>
@@ -297,13 +294,52 @@ class Issues {
     if (editBtn.innerText === 'Edit') {
       editBtn.innerHTML = `<i class="fas fa-times m-1"></i> Hide Edit`
       cardHeader.insertAdjacentHTML('beforeend', issueEditForm);
+
       //Bind event listener to update issue button
-      // e.target.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', (e) => this.createComment(e))
+      editBtn.parentElement.parentElement.querySelector('button.update-issue').addEventListener('click', (e) => this.updateIssue(e));
     } else if (editBtn.innerText === ' Hide Edit') {
       editBtn.innerHTML = `<i class="fas fa-user-edit m-1"></i>Edit`
       // console.log(cardHeader.lastChild)
       cardHeader.lastElementChild.remove();
     }
+
+
+  }
+
+  //Send revisions from update issue form to DB
+  updateIssue(e) {
+    //Get issue id
+    const id = e.target.closest('.card-container').dataset.id;
+
+    //Select form and values when update issue is clicked
+    const form = document.querySelector('form.edit-issue')
+    const formData = new FormData(form)
+    const title = formData.get('title')
+    const description = formData.get('description')
+    const creator = formData.get('creator')
+
+    //Create object with updated info
+    const issueObj = {
+      creator,
+      title,
+      description
+    }
+    console.log(issueObj)
+
+    // this.adapter.updateIssue(issueObj, id)
+    //   .then(data => {
+    //     //Create new openIssuesArray without issue
+    //     this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
+    //     // Add to closedIssuesArray
+    //     if (this.closedIssuesArray.filter(issue => issue.id === data.id).length === 0) {
+    //       this.closedIssuesArray.push(new Issue(data))
+    //     }
+    //   })
+    //   .then(() => this.renderOpenIssues())
+    //   .catch(function (error) {
+    //     alert("Unable to process");
+    //     console.log(error.message);
+    //   });
   }
 
   // Change existing issue status from Open to Closed
