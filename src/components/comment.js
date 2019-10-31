@@ -9,8 +9,6 @@ export class Comment {
 
   // Set date to locale format and /mm/dd/yyyy
   createdDate(created_at) {
-    console.log(created_at)
     this.createdDate = Intl.DateTimeFormat().format(new Date(created_at));
-    console.log(this.createdDate)
   }
 }

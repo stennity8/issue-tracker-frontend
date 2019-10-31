@@ -174,7 +174,6 @@ class Issues {
     //Render detailed issue view without comments
     let issueContainer = document.getElementById(`${issue.id}`)
     issueContainer.innerHTML = `
-    <div class="container card-container p-0" data-id="${issue.id}">
       <div class="card border-success mb-3">
         <div class="card-header d-flex p-1 bg-success align-items-center">
           <div class="status issue-number bg-light p-1 rounded">
@@ -209,7 +208,6 @@ class Issues {
         <div class="comment-container d-flex flex-column p-0 mt-2">
         </div>
       </div>
-    </div>
     </div>`
 
     // Add comments to view
@@ -375,7 +373,6 @@ class Issues {
       editBtn.parentElement.parentElement.querySelector('button.update-issue').addEventListener('click', (e) => this.updateIssue(e));
     } else if (editBtn.innerText === ' Hide Edit') {
       editBtn.innerHTML = `<i class="fas fa-user-edit m-1"></i>Edit`
-      // console.log(cardHeader.lastChild)
       cardHeader.lastElementChild.remove();
     }
   }
@@ -401,7 +398,7 @@ class Issues {
     this.adapter.updateIssue(issueObj, id)
       .then(data => {
         // Find and revise issue within openIssuesArray
-        const card = e.target.parentElement.parentElement.parentElement
+        const card = e.target.closest('.card')
         const issue = this.openIssuesArray.find(issue => issue.id === data.id)
         this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
         issue.creator = data.creator
@@ -517,7 +514,7 @@ class Issues {
   // Create new issue for comment
   createComment(e) {
     this.addComment = false
-    const issueCard = e.target.parentElement.parentElement.parentElement.parentElement
+    const issueCard = e.target.closest('.card-container')
     const issueId = issueCard.dataset.id
     const commentContainer = issueCard.querySelector('.comment-container')
     const issue = this.openIssuesArray.find(issue => issue.id === parseInt(issueId, 10))
