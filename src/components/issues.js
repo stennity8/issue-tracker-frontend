@@ -220,7 +220,7 @@ class Issues {
       `<div class="comment p-1 mb-1 border border-secondary" data-id="${comment.id}">
           <div class="commentor-name comment-date d-flex flex-row">
             <h6>${comment.commentor}</h6>
-            <h6 class="ml-auto">10/22/2019</h6>
+            <h6 class="ml-auto">${comment.createdDate}</h6>
           </div>
           <div class="comment">
             <h6>${comment.description}</h6>
@@ -540,7 +540,7 @@ class Issues {
           <div class="comment p-1 mb-1 border border-secondary" id="${commentObj.id}">
             <div class="commentor-name comment-date d-flex flex-row">
               <h6>${commentObj.commentor}</h6>
-              <h6 class="ml-auto">10/22/2019</h6>
+              <h6 class="ml-auto">${commentObj.createdDate}</h6>
             </div>
             <div class="comment">
               <h6>${commentObj.description}</h6>
