@@ -6,14 +6,14 @@ class Issues {
     this.openIssuesArray = []
     this.closedIssuesArray = []
     this.adapter = issuesAdapter
-    this.addComment = false
     this.createNewIssue = false
     this.createNewIssueBtn = document.querySelector('button#create-new-issue')
     this.newIssueForm = document.querySelector('#new-issue-container')
     this.issueContainer = document.querySelector('.issue-container')
     this.createIssueBtn = document.querySelector('button.create-issue')
     this.bindingsAndEventListeners()
-    this.fetchAndLoadOpenIssues()
+    // this.fetchAndLoadOpenIssues()
+    this.fetchAndLoadClosedIssues()
   }
   //Hide or show create new issue form
   toggleNewIssue() {
@@ -96,6 +96,50 @@ class Issues {
           </div>
         </div>
       </div>`
+    ).join('')
+
+    //Add HTML to Issue conatainer
+    this.issueContainer.innerHTML = issueCards
+  }
+
+  //Fetch all open issues from API
+  fetchAndLoadClosedIssues() {
+    this.adapter
+      .getClosedIssues()
+      .then(issues => {
+        issues.forEach(issue => this.openIssuesArray.push(new Issue(issue)))
+      })
+      .then(() => {
+        this.renderClosedIssues()
+      })
+      .catch(err => alert('Something went wrong'));
+  }
+
+  //Render all open issues to DOM
+  renderClosedIssues() {
+    //Create HTML for all cards
+    let issueCards = this.openIssuesArray.map(issue =>
+      `<div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
+          <div class="card border-success mb-3">
+            <div class="card-header d-flex p-1 bg-success align-items-center">
+              <div class="status issue-number bg-light p-1 rounded">
+                <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
+                <h5 class="m-0 issue-status"><span class="badge badge-warning">${issue.status}</span></h5>
+              </div>
+            <div class="d-flex flex-column">
+              <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+              <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
+            </div>
+            <div class="ml-auto d-flex flex-column">
+              <p class="m-1 issue-date">Issue Resolved: ${issue.resolvedDate}</p>
+              <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issue.id}">Re-Open Issue</button>
+            </div>
+            </div>
+            <div class="card-header">
+              <h5 class="card-text issue-description">Description: ${issue.description}</h5>
+            </div>
+          </div>
+        </div>`
     ).join('')
 
     //Add HTML to Issue conatainer

@@ -18,6 +18,7 @@ export class Issue {
       this.status = 'Open'
     } else if (this.openStatus === false) {
       this.status = 'Closed'
+      this.resolvedDate = Intl.DateTimeFormat().format(new Date(this.resolvedDate));
     }
   }
 
