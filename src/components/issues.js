@@ -67,23 +67,19 @@ class Issues {
   //Toggle view between open issues and closed issues
   toggleIssues(e) {
     if (e.target.closest('button').innerText === 'View Open') {
-      //Update heading and render open issues
-      document.querySelector('.heading').innerHTML = `
-      <h3 class="text-center">Open Issues</h3>
-      <div class="new-issue text-center mb-2">
-        <button type="button" class="btn btn-primary p-1 mr-1 ml-auto" id="create-new-issue">
-          <i class="fas fa-plus"></i> Create New Issue
-        </button>
-      </div>`
-
+      //Toggle heading display and render open issues
+      document.querySelector('.heading-closed').style.display = 'none'
+      document.querySelector('.heading-open').style.display = 'block'
       this.renderOpenIssues()
 
-      //Bind event listener to newly rendered create new issue button
-      document.getElementById('create-new-issue').addEventListener('click', this.toggleNewIssue)
 
     } else if (e.target.closest('button').innerText === 'View Closed') {
-      //Update heading and render closed issues
-      document.querySelector('.heading').innerHTML = `<h3 class="text-center">Closed Issues</h3>`
+      //Toggle heading display, toggle issue form off, render closed issues
+      document.querySelector('.heading-closed').style.display = 'block'
+      document.querySelector('.heading-open').style.display = 'none'
+      if (this.createNewIssueBtn.innerText === ' Hide Form') {
+        this.toggleNewIssue()
+      }
 
       this.renderClosedIssues()
     }
@@ -253,8 +249,14 @@ class Issues {
     //Remove card body
     e.target.parentElement.parentElement.nextElementSibling.remove()
 
+    //Remove edit form if present
+    if (e.target.parentElement.querySelector('button.edit-issue').innerText === ' Hide Edit') {
+      e.target.parentElement.parentElement.querySelector('form.edit-issue').remove()
+    }
+
     //Remove buttons
     e.target.parentElement.remove()
+
   }
 
   //Create new issue in DB and render to DOM
@@ -414,7 +416,7 @@ class Issues {
         //Update rendered issue
         card.querySelector('h4.issue-title strong').innerText = issue.title
         card.querySelector('p.issue-creator em').innerText = issue.creator
-        card.querySelector('h5.issue-description').innerText = `Description: ${issue.title}`
+        card.querySelector('h5.issue-description').innerText = `Description: ${issue.description}`
       })
       .catch(function (error) {
         alert("Unable to process");
