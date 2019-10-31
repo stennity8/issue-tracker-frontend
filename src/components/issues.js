@@ -15,38 +15,8 @@ class Issues {
     this.fetchAndLoadOpenIssues()
     this.fetchAndLoadClosedIssues()
   }
-  //Hide or show create new issue form
-  toggleNewIssue() {
-    this.createNewIssueBtn.innerHTML = ''
-    this.createNewIssue = !this.createNewIssue
-    if (this.createNewIssue) {
-      this.createNewIssueBtn.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
-      this.newIssueForm.style.display = 'block'
-    } else {
-      this.createNewIssueBtn.innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
-      this.newIssueForm.style.display = 'none'
-    }
-  }
 
-  // Show detailed issue view
-  viewIssue(e) {
-    e.preventDefault();
-    if (e.target.classList.contains('view-issue')) {
-      //Get issue id and find the issue object in openIssuesArray
-      const issueId = parseInt(e.target.dataset.id, 10)
-      const issue = this.openIssuesArray.find(issue => issue.id === issueId)
-      // Check if comments already loaded
-      if (!issue.comments) {
-        //Fetch issue comments
-        issue.createComments()
-        issue.comments.fetchAndLoadIssueComments()
-          .then(() => this.renderIssue(issue));
-      } else {
-        this.renderIssue(issue)
-      }
-    }
-  }
-
+  //Bind event listeners on instantiation
   bindingsAndEventListeners() {
     // Listen for click on new issue button
     this.createNewIssueBtn.addEventListener('click', (e) => this.toggleNewIssue(e))
@@ -82,6 +52,38 @@ class Issues {
       }
 
       this.renderClosedIssues()
+    }
+  }
+
+  //Hide or show create new issue form
+  toggleNewIssue() {
+    this.createNewIssueBtn.innerHTML = ''
+    this.createNewIssue = !this.createNewIssue
+    if (this.createNewIssue) {
+      this.createNewIssueBtn.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
+      this.newIssueForm.style.display = 'block'
+    } else {
+      this.createNewIssueBtn.innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
+      this.newIssueForm.style.display = 'none'
+    }
+  }
+
+  // Show detailed issue view
+  viewIssue(e) {
+    e.preventDefault();
+    if (e.target.classList.contains('view-issue')) {
+      //Get issue id and find the issue object in openIssuesArray
+      const issueId = parseInt(e.target.dataset.id, 10)
+      const issue = this.openIssuesArray.find(issue => issue.id === issueId)
+      // Check if comments already loaded
+      if (!issue.comments) {
+        //Fetch issue comments
+        issue.createComments()
+        issue.comments.fetchAndLoadIssueComments()
+          .then(() => this.renderIssue(issue));
+      } else {
+        this.renderIssue(issue)
+      }
     }
   }
 
@@ -129,45 +131,63 @@ class Issues {
     this.issueContainer.innerHTML = issueCards
   }
 
-  //Fetch all closed issues from API
-  fetchAndLoadClosedIssues() {
-    this.adapter
-      .getClosedIssues()
-      .then(issues => {
-        issues.forEach(issue => this.closedIssuesArray.push(new Issue(issue)))
-      })
-      .catch(err => alert('Something went wrong'));
-  }
+  //Create new issue in DB and render to DOM
+  createIssue(e) {
+    const form = document.querySelector('form.add-issue')
+    const formData = new FormData(form)
+    const title = formData.get('title')
+    const description = formData.get('description')
+    const creator = formData.get('creator')
 
-  //Render all open issues to DOM
-  renderClosedIssues() {
-    //Create HTML for all cards
-    let issueCards = this.closedIssuesArray.map(issue =>
-      `<div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
-          <div class="card border-success mb-3">
-            <div class="card-header d-flex p-1 bg-success align-items-center">
-              <div class="status issue-number bg-light p-1 rounded">
-                <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
-                <h5 class="m-0 issue-status"><span class="badge badge-warning">${issue.status}</span></h5>
+    const issue = {
+      creator,
+      title,
+      description
+    }
+
+    //Make POST request using adapter
+    this.adapter.createNewIssue(issue)
+      .then(data => this.openIssuesArray.push(new Issue(data)))
+      .then(() => {
+        const issueObj = this.openIssuesArray.slice(-1)[0]
+        let newIssue = `
+          <div class="container card-container p-0" data-id="${issueObj.id}" id="${issueObj.id}">
+            <div class="card border-success mb-3">
+              <div class="card-header d-flex p-1 bg-success align-items-center">
+                <div class="status issue-number bg-light p-1 rounded">
+                  <h5 class="m-0 issue-id"><span class="badge">#${issueObj.id}</span></h5>
+                  <h5 class="m-0 issue-status"><span class="badge badge-danger">${issueObj.status}</span></h5>
+                </div>
+                <div class="d-flex flex-column">
+                  <h4 class="issue-title ml-2 mb-0"><strong>${issueObj.title}</strong></h4>
+                  <p class="issue-creator ml-2 mb-0"><em>${issueObj.creator}</em></p>
+                </div>
+                <div class="ml-auto d-flex flex-column">
+                  <p class="m-1 issue-date">${issueObj.createdDate}</p>
+                  <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issueObj.id}">View Issue</button>
+                </div>
               </div>
-            <div class="d-flex flex-column">
-              <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
-              <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
+              <div class="card-header">
+                <h5 class="card-text issue-description">Description: ${issueObj.description}</h5>
+              </div>
             </div>
-            <div class="ml-auto d-flex flex-column">
-              <p class="m-1 issue-date" align="right">Issue Resolved: ${issue.resolvedDate}</p>
-              <button type="button" class="btn btn-primary p-1 ml-auto btn-sm reopen-issue text-nowrap" data-id="${issue.id}">Re-Open Issue</button>
-            </div>
-            </div>
-            <div class="card-header">
-              <h5 class="card-text issue-description">Description: ${issue.description}</h5>
-            </div>
-          </div>
-        </div>`
-    ).join('')
+          </div>`
 
-    //Add HTML to Issue conatainer
-    this.issueContainer.innerHTML = issueCards
+        this.issueContainer.insertAdjacentHTML('beforeend', newIssue)
+
+        // Add view button event listener to new issue
+        document.getElementById(`${issueObj.id}`).addEventListener('click', (e) => this.viewIssue(e))
+      })
+      .catch(function (error) {
+        alert("Unable to process");
+        console.log(error.message);
+      });
+
+    //Clear and hide form
+    this.createNewIssue = false
+    document.querySelector('button#create-new-issue').innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
+    document.querySelector('#new-issue-container').style.display = 'none'
+    form.reset()
   }
 
   renderIssue(issue) {
@@ -236,6 +256,47 @@ class Issues {
     issueContainer.querySelector('.add-comment').addEventListener('click', (e) => this.toggleAddComment(e))
   }
 
+  //Fetch all closed issues from API
+  fetchAndLoadClosedIssues() {
+    this.adapter
+      .getClosedIssues()
+      .then(issues => {
+        issues.forEach(issue => this.closedIssuesArray.push(new Issue(issue)))
+      })
+      .catch(err => alert('Something went wrong'));
+  }
+
+  //Render all open issues to DOM
+  renderClosedIssues() {
+    //Create HTML for all cards
+    let issueCards = this.closedIssuesArray.map(issue =>
+      `<div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
+          <div class="card border-success mb-3">
+            <div class="card-header d-flex p-1 bg-success align-items-center">
+              <div class="status issue-number bg-light p-1 rounded">
+                <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
+                <h5 class="m-0 issue-status"><span class="badge badge-warning">${issue.status}</span></h5>
+              </div>
+            <div class="d-flex flex-column">
+              <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+              <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
+            </div>
+            <div class="ml-auto d-flex flex-column">
+              <p class="m-1 issue-date" align="right">Issue Resolved: ${issue.resolvedDate}</p>
+              <button type="button" class="btn btn-primary p-1 ml-auto btn-sm reopen-issue text-nowrap" data-id="${issue.id}">Re-Open Issue</button>
+            </div>
+            </div>
+            <div class="card-header">
+              <h5 class="card-text issue-description">Description: ${issue.description}</h5>
+            </div>
+          </div>
+        </div>`
+    ).join('')
+
+    //Add HTML to Issue conatainer
+    this.issueContainer.innerHTML = issueCards
+  }
+
   //Hide buttons, comments, etc. and return view to basic issue view
   closeView(e) {
     // Add view issue button back
@@ -254,66 +315,6 @@ class Issues {
 
     //Remove buttons
     e.target.parentElement.remove()
-
-  }
-
-  //Create new issue in DB and render to DOM
-  createIssue(e) {
-    const form = document.querySelector('form.add-issue')
-    const formData = new FormData(form)
-    const title = formData.get('title')
-    const description = formData.get('description')
-    const creator = formData.get('creator')
-
-    const issue = {
-      creator,
-      title,
-      description
-    }
-
-    //Make POST request using adapter
-    this.adapter.createNewIssue(issue)
-      .then(data => this.openIssuesArray.push(new Issue(data)))
-      .then(() => {
-        const issueObj = this.openIssuesArray.slice(-1)[0]
-        let newIssue = `
-        <div class="container card-container p-0" data-id="${issueObj.id}" id="${issueObj.id}">
-          <div class="card border-success mb-3">
-            <div class="card-header d-flex p-1 bg-success align-items-center">
-              <div class="status issue-number bg-light p-1 rounded">
-                <h5 class="m-0 issue-id"><span class="badge">#${issueObj.id}</span></h5>
-                <h5 class="m-0 issue-status"><span class="badge badge-danger">${issueObj.status}</span></h5>
-              </div>
-              <div class="d-flex flex-column">
-                <h4 class="issue-title ml-2 mb-0"><strong>${issueObj.title}</strong></h4>
-                <p class="issue-creator ml-2 mb-0"><em>${issueObj.creator}</em></p>
-              </div>
-              <div class="ml-auto d-flex flex-column">
-                <p class="m-1 issue-date">${issueObj.createdDate}</p>
-                <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issueObj.id}">View Issue</button>
-              </div>
-            </div>
-            <div class="card-header">
-              <h5 class="card-text issue-description">Description: ${issueObj.description}</h5>
-            </div>
-          </div>
-        </div>`
-
-        this.issueContainer.insertAdjacentHTML('beforeend', newIssue)
-
-        // Add view button event listener to new issue
-        document.getElementById(`${issueObj.id}`).addEventListener('click', (e) => this.viewIssue(e))
-      })
-      .catch(function (error) {
-        alert("Unable to process");
-        console.log(error.message);
-      });
-
-    //Clear and hide form
-    this.createNewIssue = false
-    document.querySelector('button#create-new-issue').innerHTML = `<i class="fas fa-plus"></i> Create New Issue`
-    document.querySelector('#new-issue-container').style.display = 'none'
-    form.reset()
   }
 
   // Get issue info from 'Issue Resolved', 'Edit', & 'Delete' buttons
