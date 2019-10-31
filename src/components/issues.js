@@ -302,17 +302,14 @@ class Issues {
       // console.log(cardHeader.lastChild)
       cardHeader.lastElementChild.remove();
     }
-
-
   }
 
   //Send revisions from update issue form to DB
   updateIssue(e) {
     //Get issue id
     const id = e.target.closest('.card-container').dataset.id;
-
     //Select form and values when update issue is clicked
-    const form = document.querySelector('form.edit-issue')
+    const form = e.target.closest('form.edit-issue')
     const formData = new FormData(form)
     const title = formData.get('title')
     const description = formData.get('description')
@@ -324,22 +321,29 @@ class Issues {
       title,
       description
     }
-    console.log(issueObj)
 
-    // this.adapter.updateIssue(issueObj, id)
-    //   .then(data => {
-    //     //Create new openIssuesArray without issue
-    //     this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
-    //     // Add to closedIssuesArray
-    //     if (this.closedIssuesArray.filter(issue => issue.id === data.id).length === 0) {
-    //       this.closedIssuesArray.push(new Issue(data))
-    //     }
-    //   })
-    //   .then(() => this.renderOpenIssues())
-    //   .catch(function (error) {
-    //     alert("Unable to process");
-    //     console.log(error.message);
-    //   });
+    this.adapter.updateIssue(issueObj, id)
+      .then(data => {
+        // Find and revise issue within openIssuesArray
+        const issue = this.openIssuesArray.find(issue => issue.id === data.id)
+        this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
+        issue.creator = data.creator
+        issue.title = data.title
+        issue.description = data.description
+        this.openIssuesArray.push(issue)
+
+        //Remove edit issue form & change edit button
+        e.target.parentElement.parentElement.querySelector('button.edit-issue').innerHTML = `<i class="fas fa-user-edit m-1"></i>Edit`
+        e.target.closest('.edit-issue').remove()
+
+        //Update rendered issue
+
+      })
+      // .then(() => this.renderOpenIssues())
+      .catch(function (error) {
+        alert("Unable to process");
+        console.log(error.message);
+      });
   }
 
   // Change existing issue status from Open to Closed
