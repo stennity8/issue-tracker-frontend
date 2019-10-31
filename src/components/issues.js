@@ -115,7 +115,7 @@ class Issues {
         </div>
         <div class="d-flex flex-column">
           <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
-          <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
+          <p class="issue-creator ml-2 mb-0"><em>${issue.creator}</em></p>
         </div>
         <div class="ml-auto d-flex flex-column">
           <p class="m-1 issue-date">${issue.createdDate}</p>
@@ -214,7 +214,7 @@ class Issues {
               </div>
               <div class="d-flex flex-column">
                 <h4 class="issue-title ml-2 mb-0"><strong>${issueObj.title}</strong></h4>
-                <p class="issue-title ml-2 mb-0"><em>${issueObj.creator}</em></p>
+                <p class="issue-creator ml-2 mb-0"><em>${issueObj.creator}</em></p>
               </div>
               <div class="ml-auto d-flex flex-column">
                 <p class="m-1 issue-date">${issueObj.createdDate}</p>
@@ -325,6 +325,7 @@ class Issues {
     this.adapter.updateIssue(issueObj, id)
       .then(data => {
         // Find and revise issue within openIssuesArray
+        const card = e.target.parentElement.parentElement.parentElement
         const issue = this.openIssuesArray.find(issue => issue.id === data.id)
         this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
         issue.creator = data.creator
@@ -333,13 +334,14 @@ class Issues {
         this.openIssuesArray.push(issue)
 
         //Remove edit issue form & change edit button
-        e.target.parentElement.parentElement.querySelector('button.edit-issue').innerHTML = `<i class="fas fa-user-edit m-1"></i>Edit`
+        card.querySelector('button.edit-issue').innerHTML = `<i class="fas fa-user-edit m-1"></i>Edit`
         e.target.closest('.edit-issue').remove()
 
         //Update rendered issue
-
+        card.querySelector('h4.issue-title strong').innerText = issue.title
+        card.querySelector('p.issue-creator em').innerText = issue.creator
+        card.querySelector('h5.issue-description').innerText = `Description: ${issue.title}`
       })
-      // .then(() => this.renderOpenIssues())
       .catch(function (error) {
         alert("Unable to process");
         console.log(error.message);
