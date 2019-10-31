@@ -12,7 +12,7 @@ class Issues {
     this.issueContainer = document.querySelector('.issue-container')
     this.createIssueBtn = document.querySelector('button.create-issue')
     this.bindingsAndEventListeners()
-    // this.fetchAndLoadOpenIssues()
+    this.fetchAndLoadOpenIssues()
     this.fetchAndLoadClosedIssues()
   }
   //Hide or show create new issue form
@@ -59,6 +59,34 @@ class Issues {
 
     //Listen for click on view issue button
     this.issueContainer.addEventListener('click', (e) => this.reopenIssue(e))
+
+    //Listen for click on view open/view closed button in nav bar
+    document.querySelector('.nav-buttons').addEventListener('click', (e) => this.toggleIssues(e))
+  }
+
+  //Toggle view between open issues and closed issues
+  toggleIssues(e) {
+    if (e.target.closest('button').innerText === 'View Open') {
+      //Update heading and render open issues
+      document.querySelector('.heading').innerHTML = `
+      <h3 class="text-center">Open Issues</h3>
+      <div class="new-issue text-center mb-2">
+        <button type="button" class="btn btn-primary p-1 mr-1 ml-auto" id="create-new-issue">
+          <i class="fas fa-plus"></i> Create New Issue
+        </button>
+      </div>`
+
+      this.renderOpenIssues()
+
+      //Bind event listener to newly rendered create new issue button
+      document.getElementById('create-new-issue').addEventListener('click', (e) => this.createIssue(e))
+
+    } else if (e.target.closest('button').innerText === 'View Closed') {
+      //Update heading and render closed issues
+      document.querySelector('.heading').innerHTML = `<h3 class="text-center">Closed Issues</h3>`
+
+      this.renderClosedIssues()
+    }
   }
 
   //Fetch all open issues from API
@@ -105,15 +133,12 @@ class Issues {
     this.issueContainer.innerHTML = issueCards
   }
 
-  //Fetch all open issues from API
+  //Fetch all closed issues from API
   fetchAndLoadClosedIssues() {
     this.adapter
       .getClosedIssues()
       .then(issues => {
         issues.forEach(issue => this.closedIssuesArray.push(new Issue(issue)))
-      })
-      .then(() => {
-        this.renderClosedIssues()
       })
       .catch(err => alert('Something went wrong'));
   }

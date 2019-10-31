@@ -17,19 +17,24 @@
 <body>
   <!-- Navbar -->
   <nav class="navbar navbar-dark bg-primary">
-    <div class="container d-flex justify-content-center">
-      <i class="fas fa-bug navbar-brand"></i>
-      <p class="navbar-brand m-0">Issue Tracker</p>
+    <div class="container d-flex justify-content-center flex-column">
+      <p class="navbar-brand m-0"><i class="fas fa-bug navbar-brand"></i>Issue Tracker</p>
+      <div class="btn-group nav-buttons" role="group" aria-label="nav buttons">
+        <button type="button" class="btn btn-secondary btn-open-issues"><strong>View Open</strong></button>
+        <button type="button" class="btn btn-secondary btn-closed-issues"><strong>View Closed</strong></button>
+      </div>
     </div>
   </nav>
 
   <!-- New Issue Title/Button Container -->
   <div class="container">
-    <h3 class="text-center">Open Issues</h3>
-    <div class="new-issue text-center mb-2">
-      <button type="button" class="btn btn-primary p-1 mr-1 ml-auto" id="create-new-issue">
-        <i class="fas fa-plus"></i> Create New Issue
-      </button>
+    <div class="heading">
+      <h3 class="text-center">Open Issues</h3>
+      <div class="new-issue text-center mb-2">
+        <button type="button" class="btn btn-primary p-1 mr-1 ml-auto" id="create-new-issue">
+          <i class="fas fa-plus"></i> Create New Issue
+        </button>
+      </div>
     </div>
 
     <!-- New Issue Form -->
