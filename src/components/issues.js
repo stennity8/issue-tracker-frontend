@@ -56,6 +56,9 @@ class Issues {
 
     //Listen for click on view issue button
     this.issueContainer.addEventListener('click', (e) => this.viewIssue(e))
+
+    //Listen for click on view issue button
+    this.issueContainer.addEventListener('click', (e) => this.reopenIssue(e))
   }
 
   //Fetch all open issues from API
@@ -107,7 +110,7 @@ class Issues {
     this.adapter
       .getClosedIssues()
       .then(issues => {
-        issues.forEach(issue => this.openIssuesArray.push(new Issue(issue)))
+        issues.forEach(issue => this.closedIssuesArray.push(new Issue(issue)))
       })
       .then(() => {
         this.renderClosedIssues()
@@ -118,7 +121,7 @@ class Issues {
   //Render all open issues to DOM
   renderClosedIssues() {
     //Create HTML for all cards
-    let issueCards = this.openIssuesArray.map(issue =>
+    let issueCards = this.closedIssuesArray.map(issue =>
       `<div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
           <div class="card border-success mb-3">
             <div class="card-header d-flex p-1 bg-success align-items-center">
@@ -131,8 +134,8 @@ class Issues {
               <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
             </div>
             <div class="ml-auto d-flex flex-column">
-              <p class="m-1 issue-date">Issue Resolved: ${issue.resolvedDate}</p>
-              <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issue.id}">Re-Open Issue</button>
+              <p class="m-1 issue-date" align="right">Issue Resolved: ${issue.resolvedDate}</p>
+              <button type="button" class="btn btn-primary p-1 ml-auto btn-sm reopen-issue text-nowrap" data-id="${issue.id}">Re-Open Issue</button>
             </div>
             </div>
             <div class="card-header">
@@ -421,6 +424,37 @@ class Issues {
         alert("Unable to process");
         console.log(error.message);
       });
+  }
+
+  // reopen closed issue
+  reopenIssue(e) {
+    e.preventDefault();
+    if (e.target.classList.contains('reopen-issue')) {
+      //Get issue id and find the issue object in openIssuesArray
+      const id = parseInt(e.target.dataset.id, 10)
+      const issue = this.openIssuesArray.find(issue => issue.id === id)
+
+      const idObj = {
+        open_status: true,
+        resolved_date: null
+      }
+
+      //Send PATCH request to change status to open
+      this.adapter.updateIssue(idObj, id)
+        .then(data => {
+          //Create new closedIssuesArray without issue
+          this.closedIssuesArray = this.closedIssuesArray.filter(issue => issue.id !== data.id)
+          // Add to openIssuesArray
+          if (this.openIssuesArray.filter(issue => issue.id === data.id).length === 0) {
+            this.openIssuesArray.push(new Issue(data))
+          }
+        })
+        .then(() => this.renderClosedIssues())
+        .catch(function (error) {
+          alert("Unable to process");
+          console.log(error.message);
+        });
+    }
   }
 
   // Toggle display of new comment form
