@@ -256,17 +256,19 @@ class Issues {
   deleteIssue(e) {
     let deleteBtn = e.target.closest('button.delete-issue')
     const issue = this.getIssueInfo(deleteBtn)
-
-    this.adapter.removeIssue(issue.id)
-      .then(data => {
-        //Create new openIssuesArray without issue
-        this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
-      })
-      .then(() => this.renderOpenIssues())
-      .catch(function (error) {
-        alert("Unable to process");
-        console.log(error.message);
-      });
+    //Use confirm to make sure user wants to continue
+    if (confirm("Are you sure you want to delete this issue?  Deleted issues can not be recovered!") === true) {
+      this.adapter.removeIssue(issue.id)
+        .then(data => {
+          //Create new openIssuesArray without issue
+          this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
+        })
+        .then(() => this.renderOpenIssues())
+        .catch(function (error) {
+          alert("Unable to process");
+          console.log(error.message);
+        });
+    }
   }
 
   // Edit existing issue
