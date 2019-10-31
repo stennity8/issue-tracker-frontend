@@ -281,15 +281,15 @@ class Issues {
 
     const issueEditForm = `
     <form class="form-group add-issue d-flex flex-column">
-    <label class="col-form-label font-weight-bold" for="creator">Creator</label>
-    <input type="text" class="form-control" placeholder="Add issue title..." id="creator" name="creator" value="${issueForEdit.creator}">
-    <label class="col-form-label font-weight-bold" for="issue-title">Issue Title</label>
-    <input type="text" class="form-control" placeholder="Add issue title..." id="issue-title" name="title" value="${issueForEdit.title}">
-    <label class="col-form-label font-weight-bold" for="issue-description">Description</label>
-    <textarea class="form-control" placeholder="Add issue description..." id="issue-description" name="description">${issueForEdit.description}</textarea>
-    <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-issue">
-    <i class="fas fa-plus"></i> Update Issue
-    </button>
+      <label class="col-form-label font-weight-bold" for="creator">Creator</label>
+      <input type="text" class="form-control" placeholder="Add issue title..." id="creator" name="creator" value="${issueForEdit.creator}">
+      <label class="col-form-label font-weight-bold" for="issue-title">Issue Title</label>
+      <input type="text" class="form-control" placeholder="Add issue title..." id="issue-title" name="title" value="${issueForEdit.title}">
+      <label class="col-form-label font-weight-bold" for="issue-description">Description</label>
+      <textarea class="form-control" placeholder="Add issue description..." id="issue-description" name="description">${issueForEdit.description}</textarea>
+      <button type="button" class="btn btn-primary p-1 mt-2 btn-sm btn-block create-issue">
+        <i class="fas fa-plus"></i> Update Issue
+      </button>
     </form>
     `
 
@@ -308,6 +308,7 @@ class Issues {
 
   // Change existing issue status from Open to Closed
   resolveIssue(e) {
+    //Set button as target and get button text
     let resolveBtn = e.target.closest('button.resolve-issue')
     //Get issue
     const issue = this.getIssueInfo(resolveBtn)
@@ -336,8 +337,9 @@ class Issues {
 
   // Toggle display of new comment form
   toggleAddComment(e) {
-    //Check button text
-    let addComment = e.target.innerText
+    //Set button as target and get button text
+    const addCommentBtn = e.target.closest('button.add-comment')
+    let addComment = addCommentBtn.innerText
 
     const commentForm = `
     <form class="form-group add-comment d-flex flex-column mt-1">
@@ -353,13 +355,13 @@ class Issues {
           `
     //Hide or show create new comment form
     if (addComment === ' Add Comment') {
-      e.target.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
-      e.target.parentElement.insertAdjacentHTML('afterend', commentForm);
+      addCommentBtn.innerHTML = `<i class="fas fa-minus"></i> Hide Form`
+      addCommentBtn.parentElement.insertAdjacentHTML('afterend', commentForm);
       //Bind event listener to create comment
-      e.target.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', (e) => this.createComment(e))
+      addCommentBtn.parentElement.parentElement.querySelector('.create-comment').addEventListener('click', (e) => this.createComment(e))
     } else if (addComment === ' Hide Form') {
-      e.target.innerHTML = `<i class="fas fa-plus"></i> Add Comment`
-      e.target.parentElement.parentElement.querySelector('form').remove();
+      addCommentBtn.innerHTML = `<i class="fas fa-plus"></i> Add Comment`
+      addCommentBtn.parentElement.parentElement.querySelector('form').remove();
     }
   }
 
