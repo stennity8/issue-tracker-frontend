@@ -441,7 +441,8 @@ class Issues {
         this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
         // Add to closedIssuesArray
         if (this.closedIssuesArray.filter(issue => issue.id === data.id).length === 0) {
-          this.closedIssuesArray.push(new Issue(data))
+          //Most recently closed issues should be at front of array
+          this.closedIssuesArray.unshift(new Issue(data))
         }
       })
       .then(() => this.renderOpenIssues())
@@ -472,6 +473,8 @@ class Issues {
           // Add to openIssuesArray
           if (this.openIssuesArray.filter(issue => issue.id === data.id).length === 0) {
             this.openIssuesArray.push(new Issue(data))
+            //Sort in ascending order
+            this.openIssuesArray.sort((a, b) => (a.id > b.id) ? 1 : -1)
           }
         })
         .then(() => this.renderClosedIssues())
