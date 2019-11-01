@@ -19,6 +19,7 @@ Video Walk-through: COMING SOON
 2. `cd` into the newly created `issue-tracker-frontend` folder.
 3. Run `npm install`
 4. Make sure the Issue Tracker API is running on `http://localhost:3000/` and then run `npm start`
+5. Navigate to the localhost that you are directed to in the output.  This is usually `http://localhost:8080/` but could be different based on your settings.
 
 ### Contributing
 
