@@ -401,7 +401,7 @@ class Issues {
         // Find and revise issue within openIssuesArray
         const card = e.target.closest('.card')
         const issue = this.openIssuesArray.find(issue => issue.id === data.id)
-
+        //Find issue within array and update
         this.openIssuesArray = this.openIssuesArray.map(issue => {
           if (issue.id === data.id) {
             issue.creator = data.creator
