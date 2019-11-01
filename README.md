@@ -1,5 +1,4 @@
 # Issue Tracker Frontend
-
 ---
 
 ### Issue Tracker Frontend handles the UI frontend for the Issue Tracker application.  This Issue Tracker stores issues created by users.  User can add comments to issues until they are ready to resolve the issue.  Resolved issues can be viewed and re-opened if needed.
