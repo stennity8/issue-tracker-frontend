@@ -401,11 +401,17 @@ class Issues {
         // Find and revise issue within openIssuesArray
         const card = e.target.closest('.card')
         const issue = this.openIssuesArray.find(issue => issue.id === data.id)
-        this.openIssuesArray = this.openIssuesArray.filter(issue => issue.id !== data.id)
-        issue.creator = data.creator
-        issue.title = data.title
-        issue.description = data.description
-        this.openIssuesArray.push(issue)
+
+        this.openIssuesArray = this.openIssuesArray.map(issue => {
+          if (issue.id === data.id) {
+            issue.creator = data.creator
+            issue.title = data.title
+            issue.description = data.description
+            return issue
+          } else {
+            return issue
+          }
+        })
 
         //Remove edit issue form & change edit button
         card.querySelector('button.edit-issue').innerHTML = `<i class="fas fa-user-edit m-1"></i>Edit`
