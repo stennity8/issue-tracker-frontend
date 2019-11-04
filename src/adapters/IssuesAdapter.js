@@ -1,8 +1,8 @@
 class IssuesAdapter {
   constructor() {
-    this.baseURL = 'https://issue-tracker-backend-api.herokuapp.com//api/v1'
-    this.openIssueURL = 'https://issue-tracker-backend-api.herokuapp.com//api/v1/issues/open'
-    this.closedIssueURL = 'https://issue-tracker-backend-api.herokuapp.com//api/v1/issues/closed'
+    this.baseURL = 'https://issue-tracker-backend-api.herokuapp.com/api/v1'
+    this.openIssueURL = 'https://issue-tracker-backend-api.herokuapp.com/api/v1/issues/open'
+    this.closedIssueURL = 'https://issue-tracker-backend-api.herokuapp.com/api/v1/issues/closed'
   }
 
   getOpenIssues() {
@@ -22,7 +22,7 @@ class IssuesAdapter {
       body: JSON.stringify(issue)
     };
 
-    return fetch(`https://issue-tracker-backend-api.herokuapp.com//api/v1/issues`, configObj).then(res => res.json())
+    return fetch(`https://issue-tracker-backend-api.herokuapp.com/api/v1/issues`, configObj).then(res => res.json())
   }
 
   updateIssue(issueObj, issueId) {
@@ -34,11 +34,11 @@ class IssuesAdapter {
       body: JSON.stringify(issueObj)
     };
 
-    return fetch(`https://issue-tracker-backend-api.herokuapp.com//api/v1/issues/${issueId}`, configObj).then(res => res.json())
+    return fetch(`https://issue-tracker-backend-api.herokuapp.com/api/v1/issues/${issueId}`, configObj).then(res => res.json())
   }
 
   removeIssue(issueId) {
-    return fetch(`https://issue-tracker-backend-api.herokuapp.com//api/v1/issues/${issueId}`, { method: "DELETE" }).then(res => res.json())
+    return fetch(`https://issue-tracker-backend-api.herokuapp.com/api/v1/issues/${issueId}`, { method: "DELETE" }).then(res => res.json())
   }
 }
 
