@@ -1,16 +1,24 @@
 class IssuesAdapter {
   constructor() {
+    // Great use of versioned API urls!
     this.baseURL = 'http://localhost:3000/api/v1'
     this.openIssueURL = 'http://localhost:3000/api/v1/issues/open'
     this.closedIssueURL = 'http://localhost:3000/api/v1/issues/closed'
   }
 
+  // Could use a base method like the following to always prepend baseURL and
+  // to always capture res.json() so that doesn't need to be in every function.
+  // This would siomplify down the various functions a good bit
+  fetch(path, configObj) {
+    return fetch(`${this.baseURL}${path}`, configObj).then(res => res.json());
+  }
+
   getOpenIssues() {
-    return fetch(this.openIssueURL).then(res => res.json())
+    return this.fetch('/issues/open');
   }
 
   getClosedIssues() {
-    return fetch(this.closedIssueURL).then(res => res.json())
+    return this.fetch('/issues/closed');
   }
 
   createNewIssue(issue) {
@@ -22,7 +30,7 @@ class IssuesAdapter {
       body: JSON.stringify(issue)
     };
 
-    return fetch(`http://localhost:3000/api/v1/issues`, configObj).then(res => res.json())
+    return this.fetch('/issues', configObj);
   }
 
   updateIssue(issueObj, issueId) {
@@ -34,11 +42,11 @@ class IssuesAdapter {
       body: JSON.stringify(issueObj)
     };
 
-    return fetch(`http://localhost:3000/api/v1/issues/${issueId}`, configObj).then(res => res.json())
+    return this.fetch(`/issues/${issueId}`, configObj);
   }
 
   removeIssue(issueId) {
-    return fetch(`http://localhost:3000/api/v1/issues/${issueId}`, { method: "DELETE" }).then(res => res.json())
+    return this.fetch(`/issues/${issueId}`, { method: "DELETE" });
   }
 }
 

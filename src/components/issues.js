@@ -1,3 +1,4 @@
+// Nice use of separate adaptor files to handle all API calls!
 import { issuesAdapter } from '../adapters/IssuesAdapter'
 import { Issue } from './issue'
 
@@ -91,10 +92,13 @@ class Issues {
   fetchAndLoadOpenIssues() {
     this.adapter
       .getOpenIssues()
-      .then(issues => {
-        issues.forEach(issue => this.openIssuesArray.push(new Issue(issue)))
-      })
-      .then(() => {
+      .then((issues) => {
+        this.openIssuesArray = issues.map(issue => new Issue(issue));
+        // Nice splitting of the responsibility of fetching from the responsibility
+        // of rendering here!  The next step in splitting these (not necessary in
+        // an app of this size of course) would to be to actually separate them
+        // out into different modules.  You'll find that the render separate
+        // should be much easier in React I think
         this.renderOpenIssues()
       })
       .catch(err => alert('Something went wrong'));
@@ -103,6 +107,14 @@ class Issues {
   //Render all open issues to DOM
   renderOpenIssues() {
     //Create HTML for all cards
+
+    // Looks like there's some duplication between this and renderClosedIssues -
+    // can the duped HTML be moved to a shared function like getIssueHtml(issue)
+    // so it onlky has to be maintained in one place?  I think you'll find that when
+    // you do this using React some of templating stuff becomes easier to share
+    // and reuse (or doing it with any framework that has a templating library of
+    // sorts)
+
     let issueCards = this.openIssuesArray.map(issue =>
       `<div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
         <div class="card border-success mb-3">
@@ -224,7 +236,7 @@ class Issues {
             <i class="fas fa-plus"></i> Add Comment
           </button>
         </div>
-        
+
         <div class="comment-container d-flex flex-column p-0 mt-2">
         </div>
       </div>
@@ -366,6 +378,14 @@ class Issues {
     `
 
     //Hide or show edit issue form
+
+    // Basing these toggle states off the actual text displayed to the user
+    // makes it a bit fragile to update in the future.  If you decide to make it
+    // say "Close Edit" in the HTML but also forget to update this if/else you
+    // may unintentionally break the logic.  One way to de-couple the display
+    // from the logic would be to use maybe a data- attribute so you could do
+    // like `editBtn.dataset.isEdit === 'true'`
+
     if (editBtn.innerText === 'Edit') {
       editBtn.innerHTML = `<i class="fas fa-times m-1"></i> Hide Edit`
       cardHeader.insertAdjacentHTML('beforeend', issueEditForm);
