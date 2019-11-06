@@ -7,6 +7,7 @@ class Issues {
     this.closedIssuesArray = []
     this.adapter = issuesAdapter
     this.createNewIssue = false
+    this.viewStatus = 'open'
     this.createNewIssueBtn = document.querySelector('button#create-new-issue')
     this.newIssueForm = document.querySelector('#new-issue-container')
     this.issueContainer = document.querySelector('.issue-container')
@@ -32,7 +33,126 @@ class Issues {
 
     //Listen for click on view open/view closed button in nav bar
     document.querySelector('.nav-buttons').addEventListener('click', (e) => this.toggleIssues(e))
+
+    //Listen for click on the sort title button
+    document.getElementById('btn-sort-issues').addEventListener('click', (e) => this.sortByTitle(e))
+
+    //Listen search input
+    document.getElementById('search-title').addEventListener('keyup', (e) => this.searchTitle(e))
   }
+
+  //Sort by title
+  sortByTitle(e) {
+
+    this.adapter.getOpenIssues().then(data => {
+      data.sort(function (a, b) {
+        var titleA = a.title.toUpperCase(); // ignore upper and lowercase
+        var titleB = b.title.toUpperCase(); // ignore upper and lowercase
+        if (titleA < titleB) {
+          return -1;
+        }
+        if (titleA > titleB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      })
+      //Create HTML for all cards
+      let issueCards = data.map(issue =>
+        `<div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
+            <div class="card border-success mb-3">
+              <div class="card-header d-flex p-1 bg-success align-items-center">
+                <div class="status issue-number bg-light p-1 rounded">
+                  <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
+                  <h5 class="m-0 issue-status"><span class="badge badge-danger">${issue.status}</span></h5>
+                </div>
+              <div class="d-flex flex-column">
+                <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+                <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
+              </div>
+              <div class="ml-auto d-flex flex-column">
+                <p class="m-1 issue-date">${issue.createdDate}</p>
+                <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issue.id}">View Issue</button>
+              </div>
+              </div>
+              <div class="card-header">
+                <h5 class="card-text issue-description">Description: ${issue.description}</h5>
+              </div>
+            </div>
+          </div>`
+      ).join('')
+
+      //Add HTML to Issue conatainer
+      this.issueContainer.innerHTML = issueCards
+    })
+  }
+
+  searchTitle(e) {
+    if (this.viewStatus === 'open') {
+      const searchValue = e.target.value
+      const matchingTitles = this.openIssuesArray.filter(issue => issue.title.toLowerCase().includes(searchValue.toLowerCase()))
+      //Create HTML for all cards
+      let issueCards = matchingTitles.map(issue =>
+        `<div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
+      <div class="card border-success mb-3">
+            <div class="card-header d-flex p-1 bg-success align-items-center">
+            <div class="status issue-number bg-light p-1 rounded">
+            <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
+            <h5 class="m-0 issue-status"><span class="badge badge-danger">${issue.status}</span></h5>
+            </div>
+            <div class="d-flex flex-column">
+            <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+            <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
+            </div>
+            <div class="ml-auto d-flex flex-column">
+            <p class="m-1 issue-date">${issue.createdDate}</p>
+            <button type="button" class="btn btn-primary p-1 ml-auto btn-sm view-issue text-nowrap" data-id="${issue.id}">View Issue</button>
+            </div>
+            </div>
+            <div class="card-header">
+            <h5 class="card-text issue-description">Description: ${issue.description}</h5>
+            </div>
+            </div>
+            </div>`
+      ).join('')
+
+      //Add HTML to Issue conatainer
+      this.issueContainer.innerHTML = issueCards
+    } else {
+
+      const searchValue = e.target.value
+      const matchingTitles = this.closedIssuesArray.filter(issue => issue.title.toLowerCase().includes(searchValue.toLowerCase()))
+      //Create HTML for all cards
+      let issueCards = matchingTitles.map(issue =>
+        `<div class="container card-container p-0" data-id="${issue.id}" id="${issue.id}">
+          <div class="card border-success mb-3">
+            <div class="card-header d-flex p-1 bg-success align-items-center">
+              <div class="status issue-number bg-light p-1 rounded">
+                <h5 class="m-0 issue-id"><span class="badge">#${issue.id}</span></h5>
+                <h5 class="m-0 issue-status"><span class="badge badge-warning">${issue.status}</span></h5>
+              </div>
+            <div class="d-flex flex-column">
+              <h4 class="issue-title ml-2 mb-0"><strong>${issue.title}</strong></h4>
+              <p class="issue-title ml-2 mb-0"><em>${issue.creator}</em></p>
+            </div>
+            <div class="ml-auto d-flex flex-column">
+              <p class="m-1 issue-date" align="right">Issue Resolved: ${issue.resolvedDate}</p>
+              <button type="button" class="btn btn-primary p-1 ml-auto btn-sm reopen-issue text-nowrap" data-id="${issue.id}">Re-Open Issue</button>
+            </div>
+            </div>
+            <div class="card-header">
+              <h5 class="card-text issue-description">Description: ${issue.description}</h5>
+            </div>
+          </div>
+        </div>`
+      ).join('')
+
+      //Add HTML to Issue conatainer
+      this.issueContainer.innerHTML = issueCards
+    }
+  }
+
 
   //Toggle view between open issues and closed issues
   toggleIssues(e) {
@@ -40,6 +160,7 @@ class Issues {
       //Toggle heading display and render open issues
       document.querySelector('.heading-closed').style.display = 'none'
       document.querySelector('.heading-open').style.display = 'block'
+      this.viewStatus = 'open'
       this.renderOpenIssues()
 
 
@@ -47,6 +168,8 @@ class Issues {
       //Toggle heading display, toggle issue form off, render closed issues
       document.querySelector('.heading-closed').style.display = 'block'
       document.querySelector('.heading-open').style.display = 'none'
+      this.viewStatus = 'closed'
+
       if (this.createNewIssueBtn.innerText === ' Hide Form') {
         this.toggleNewIssue()
       }
