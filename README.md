@@ -5,9 +5,9 @@
 
 GitHub for Back-end: `https://github.com/stennity8/issue-tracker-api.git`
 
-Heroku link: COMING SOON
+Netlify link: `https://issue-tracker-st.netlify.com/`
 
-Video Walk-through: COMING SOON
+Video Walk-through: `https://www.youtube.com/watch?v=RNMGSW-9tG8`
 
 ---
 
