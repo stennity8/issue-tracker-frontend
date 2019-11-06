@@ -43,6 +43,7 @@ class Issues {
 
   //Sort by title
   sortByTitle(e) {
+
     this.adapter.getOpenIssues().then(data => {
       data.sort(function (a, b) {
         var titleA = a.title.toUpperCase(); // ignore upper and lowercase
