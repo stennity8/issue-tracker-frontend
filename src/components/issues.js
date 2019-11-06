@@ -106,6 +106,9 @@ class Issues {
 
   //Toggle view between open issues and closed issues
   toggleIssues(e) {
+    //Clear search field
+    document.getElementById('search-title').value = ''
+
     if (e.target.closest('button').innerText === 'View Open') {
       //Toggle heading display and render open issues
       document.querySelector('.heading-closed').style.display = 'none'
