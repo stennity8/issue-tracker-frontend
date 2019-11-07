@@ -1,6 +1,6 @@
 import { issuesAdapter } from '../adapters/IssuesAdapter'
 import { Issue } from './issue'
-import loadingImg from '../../assets/loading.gif'
+import loadingImg from '../assets/loading.gif'
 
 class Issues {
   constructor() {
@@ -168,6 +168,7 @@ class Issues {
   //Fetch all open issues from API
   fetchAndLoadOpenIssues() {
     //Add loading image
+    document.querySelector('.issue-container').classList.add('text-center')
     document.querySelector('.issue-container').innerHTML = `<img src="${this.loadingImg}" alt="loading image">`
 
     this.adapter
@@ -210,6 +211,8 @@ class Issues {
 
     //Add HTML to Issue conatainer
     this.issueContainer.innerHTML = issueCards
+    document.querySelector('.issue-container').classList.remove('text-center')
+
   }
 
   //Create new issue in DB and render to DOM
@@ -340,6 +343,7 @@ class Issues {
   //Fetch all closed issues from API
   fetchAndLoadClosedIssues() {
     //Add loading image
+    document.querySelector('.issue-container').classList.add('text-center')
     document.querySelector('.issue-container').innerHTML = `<img src="${this.loadingImg}">`
 
     this.adapter
@@ -348,6 +352,8 @@ class Issues {
         issues.forEach(issue => this.closedIssuesArray.push(new Issue(issue)))
       })
       .catch(err => alert('Something went wrong'));
+
+    document.querySelector('.issue-container').classList.remove('text-center')
   }
 
   //Render all open issues to DOM
