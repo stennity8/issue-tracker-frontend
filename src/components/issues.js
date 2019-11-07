@@ -166,12 +166,24 @@ class Issues {
     }
   }
 
+  // loader() {
+  //   //Add loading image - runs recursively 5se due to Heroku API sleeping on inactivity
+  //   document.getElementById('loader-image').style.display = 'block'
+  //   setTimeout(() => {
+  //     document.getElementById('loader-image').style.display = 'none'
+  //   }, 5000)
+  // }
+
   loader() {
-    //Add loading image - runs recursively 5se due to Heroku API sleeping on inactivity
+    //Add loading image - runs recursively on 2 sec intervals due to Heroku API sleeping on inactivity
     document.getElementById('loader-image').style.display = 'block'
     setTimeout(() => {
-      document.getElementById('loader-image').style.display = 'none'
-    }, 5000)
+      if (this.openIssuesArray.length === 0) {
+        this.loader()
+      } else if (this.openIssuesArray.length > 0) {
+        document.getElementById('loader-image').style.display = 'none'
+      }
+    }, 2000)
   }
 
   //Fetch all open issues from API
