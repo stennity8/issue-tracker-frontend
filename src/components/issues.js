@@ -170,12 +170,8 @@ class Issues {
     //Add loading image - runs recursively on 2 sec intervals due to Heroku API sleeping on inactivity
     document.getElementById('loader-image').style.display = 'block'
     setTimeout(() => {
-      if (this.openIssuesArray.length === 0) {
-        this.loader()
-      } else if (this.openIssuesArray.length > 0) {
-        document.getElementById('loader-image').style.display = 'none'
-      }
-    }, 2000)
+      document.getElementById('loader-image').style.display = 'none'
+    }, 5000)
   }
 
   //Fetch all open issues from API
