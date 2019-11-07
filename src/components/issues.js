@@ -1,5 +1,6 @@
 import { issuesAdapter } from '../adapters/IssuesAdapter'
 import { Issue } from './issue'
+import loadingImg from '../../assets/loading.gif'
 
 class Issues {
   constructor() {
@@ -8,6 +9,7 @@ class Issues {
     this.adapter = issuesAdapter
     this.createNewIssue = false
     this.viewStatus = 'open'
+    this.loadingImg = loadingImg
     this.createNewIssueBtn = document.querySelector('button#create-new-issue')
     this.newIssueForm = document.querySelector('#new-issue-container')
     this.issueContainer = document.querySelector('.issue-container')
@@ -165,6 +167,9 @@ class Issues {
 
   //Fetch all open issues from API
   fetchAndLoadOpenIssues() {
+    //Add loading image
+    document.querySelector('.issue-container').innerHTML = `<img src="${this.loadingImg}" alt="loading image">`
+
     this.adapter
       .getOpenIssues()
       .then(issues => {
@@ -334,6 +339,9 @@ class Issues {
 
   //Fetch all closed issues from API
   fetchAndLoadClosedIssues() {
+    //Add loading image
+    document.querySelector('.issue-container').innerHTML = `<img src="${this.loadingImg}">`
+
     this.adapter
       .getClosedIssues()
       .then(issues => {
