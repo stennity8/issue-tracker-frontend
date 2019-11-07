@@ -14,6 +14,7 @@ class Issues {
     this.newIssueForm = document.querySelector('#new-issue-container')
     this.issueContainer = document.querySelector('.issue-container')
     this.createIssueBtn = document.querySelector('button.create-issue')
+    this.loader()
     this.bindingsAndEventListeners()
     this.fetchAndLoadOpenIssues()
     this.fetchAndLoadClosedIssues()
@@ -165,12 +166,20 @@ class Issues {
     }
   }
 
+  loader() {
+    //Add loading image - runs recursively on 2 sec intervals due to Heroku API sleeping on inactivity
+    document.getElementById('loader-image').style.display = 'block'
+    setTimeout(() => {
+      if (this.openIssuesArray.length === 0) {
+        this.loader()
+      } else {
+        document.getElementById('loader-image').style.display = 'none'
+      }
+    }, 2000)
+  }
+
   //Fetch all open issues from API
   fetchAndLoadOpenIssues() {
-    //Add loading image
-    document.querySelector('.issue-container').classList.add('text-center')
-    document.querySelector('.issue-container').innerHTML = `<img src="${this.loadingImg}" alt="loading image">`
-
     this.adapter
       .getOpenIssues()
       .then(issues => {
@@ -343,8 +352,7 @@ class Issues {
   //Fetch all closed issues from API
   fetchAndLoadClosedIssues() {
     //Add loading image
-    document.querySelector('.issue-container').classList.add('text-center')
-    document.querySelector('.issue-container').innerHTML = `<img src="${this.loadingImg}">`
+    document.getElementById('loader-image').style.display = 'block'
 
     this.adapter
       .getClosedIssues()
@@ -352,8 +360,6 @@ class Issues {
         issues.forEach(issue => this.closedIssuesArray.push(new Issue(issue)))
       })
       .catch(err => alert('Something went wrong'));
-
-    document.querySelector('.issue-container').classList.remove('text-center')
   }
 
   //Render all open issues to DOM
