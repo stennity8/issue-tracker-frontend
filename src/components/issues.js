@@ -1,6 +1,6 @@
 import { issuesAdapter } from '../adapters/IssuesAdapter'
 import { Issue } from './issue'
-import loadingImg from '../assets/loading.gif'
+import loadingImg from '../images/loading.gif'
 
 class Issues {
   constructor() {
@@ -167,7 +167,7 @@ class Issues {
   }
 
   loader() {
-    //Add loading image - runs recursively on 2 sec intervals due to Heroku API sleeping on inactivity
+    //Add loading image - runs recursively 5se due to Heroku API sleeping on inactivity
     document.getElementById('loader-image').style.display = 'block'
     setTimeout(() => {
       document.getElementById('loader-image').style.display = 'none'
