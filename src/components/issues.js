@@ -172,7 +172,7 @@ class Issues {
     setTimeout(() => {
       if (this.openIssuesArray.length === 0) {
         this.loader()
-      } else {
+      } else if (this.openIssuesArray.length > 0) {
         document.getElementById('loader-image').style.display = 'none'
       }
     }, 2000)
