@@ -1,6 +1,6 @@
 class CommentsAdapter {
   constructor() {
-    this.baseURL = 'https://issue-tracker-backend-api.herokuapp.com/api/v1'
+    this.baseURL = 'http://localhost:3000/api/v1'
   }
 
   getIssueComments(id) {

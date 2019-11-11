@@ -1,8 +1,8 @@
 class IssuesAdapter {
   constructor() {
-    this.baseURL = 'https://issue-tracker-backend-api.herokuapp.com/api/v1'
-    this.openIssueURL = 'https://issue-tracker-backend-api.herokuapp.com/api/v1/issues/open'
-    this.closedIssueURL = 'https://issue-tracker-backend-api.herokuapp.com/api/v1/issues/closed'
+    this.baseURL = 'http://localhost:3000/api/v1'
+    this.openIssueURL = 'http://localhost:3000/api/v1/issues/open'
+    this.closedIssueURL = 'http://localhost:3000/api/v1/issues/closed'
   }
 
   getOpenIssues() {
