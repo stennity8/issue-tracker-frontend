@@ -22,22 +22,16 @@ class Issues {
 
   //Bind event listeners on instantiation
   bindingsAndEventListeners() {
-    // Listen for click on new issue button
     this.createNewIssueBtn.addEventListener('click', (e) => this.toggleNewIssue(e))
 
-    // Listen for click on create issue button
     this.createIssueBtn.addEventListener('click', (e) => this.createIssue(e))
 
-    //Listen for click on view issue button
     this.issueContainer.addEventListener('click', (e) => this.viewIssue(e))
 
-    //Listen for click on view issue button
     this.issueContainer.addEventListener('click', (e) => this.reopenIssue(e))
 
-    //Listen for click on view open/view closed button in nav bar
     document.querySelector('.nav-buttons').addEventListener('click', (e) => this.toggleIssues(e))
 
-    //Listen search input
     document.getElementById('search-title').addEventListener('keyup', (e) => this.searchTitle(e))
   }
 
