@@ -1,6 +1,6 @@
 class CommentsAdapter {
   constructor() {
-    this.baseURL = 'http://localhost:3000/api/v1'
+    this.baseURL = 'https://issue-tracker-backend-api.herokuapp.com/api/v1'
   }
 
   getIssueComments(id) {
@@ -16,7 +16,7 @@ class CommentsAdapter {
       body: JSON.stringify(comment)
     };
 
-    return fetch(`http://localhost:3000/api/v1/comments`, configObj).then(res => res.json())
+    return fetch(`https://issue-tracker-backend-api.herokuapp.com/api/v1/comments`, configObj).then(res => res.json())
   }
 }
 

@@ -1,5 +1,6 @@
 import { issuesAdapter } from '../adapters/IssuesAdapter'
 import { Issue } from './issue'
+import loadingImg from '../images/loading.gif'
 
 class Issues {
   constructor() {
@@ -8,10 +9,12 @@ class Issues {
     this.adapter = issuesAdapter
     this.createNewIssue = false
     this.viewStatus = 'open'
+    this.loadingImg = loadingImg
     this.createNewIssueBtn = document.querySelector('button#create-new-issue')
     this.newIssueForm = document.querySelector('#new-issue-container')
     this.issueContainer = document.querySelector('.issue-container')
     this.createIssueBtn = document.querySelector('button.create-issue')
+    this.loader()
     this.bindingsAndEventListeners()
     this.fetchAndLoadOpenIssues()
     this.fetchAndLoadClosedIssues()
@@ -19,22 +22,16 @@ class Issues {
 
   //Bind event listeners on instantiation
   bindingsAndEventListeners() {
-    // Listen for click on new issue button
     this.createNewIssueBtn.addEventListener('click', (e) => this.toggleNewIssue(e))
 
-    // Listen for click on create issue button
     this.createIssueBtn.addEventListener('click', (e) => this.createIssue(e))
 
-    //Listen for click on view issue button
     this.issueContainer.addEventListener('click', (e) => this.viewIssue(e))
 
-    //Listen for click on view issue button
     this.issueContainer.addEventListener('click', (e) => this.reopenIssue(e))
 
-    //Listen for click on view open/view closed button in nav bar
     document.querySelector('.nav-buttons').addEventListener('click', (e) => this.toggleIssues(e))
 
-    //Listen search input
     document.getElementById('search-title').addEventListener('keyup', (e) => this.searchTitle(e))
   }
 
@@ -163,6 +160,18 @@ class Issues {
     }
   }
 
+  loader() {
+    //Add loading image - runs recursively on 2 sec intervals due to Heroku API sleeping on inactivity
+    document.getElementById('loader-image').style.display = 'block'
+    setTimeout(() => {
+      if (this.openIssuesArray.length === 0) {
+        this.loader()
+      } else if (this.openIssuesArray.length > 0) {
+        document.getElementById('loader-image').style.display = 'none'
+      }
+    }, 2000)
+  }
+
   //Fetch all open issues from API
   fetchAndLoadOpenIssues() {
     this.adapter
@@ -205,6 +214,8 @@ class Issues {
 
     //Add HTML to Issue conatainer
     this.issueContainer.innerHTML = issueCards
+    document.querySelector('.issue-container').classList.remove('text-center')
+
   }
 
   //Create new issue in DB and render to DOM
@@ -334,6 +345,9 @@ class Issues {
 
   //Fetch all closed issues from API
   fetchAndLoadClosedIssues() {
+    //Add loading image
+    document.getElementById('loader-image').style.display = 'block'
+
     this.adapter
       .getClosedIssues()
       .then(issues => {
